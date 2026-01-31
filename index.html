@@ -4,173 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pictology HQ | The Craft</title>
-    
     <link rel="icon" type="image/png" href="Pictology HQ Logo (2).png">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; color: #0f172a; scroll-behavior: smooth; }
-        h1, h2, h3, .serif { font-family: 'Lora', serif; }
-        
-        .sticky-nav {
-            position: sticky; top: 0; z-index: 100;
-            backdrop-filter: blur(16px);
-            background: rgba(252, 252, 252, 0.8);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; --picao-slate: #0f172a; }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #fcfcfc; overflow-x: hidden; }
+        .serif { font-family: 'Lora', serif; }
+
+        /* Artisanal Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.04; pointer-events: none; z-index: 9999;
         }
 
-        /* Artistic Reveal Animations */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Photo Frame Effects */
-        .photo-frame { overflow: hidden; background: #f1f5f9; position: relative; }
-        .photo-frame img { 
-            transition: transform 1.5s cubic-bezier(0.2, 1, 0.3, 1), filter 1s ease; 
-            filter: grayscale(100%);
+        /* Spotlight Cursor Effect */
+        #spotlight {
+            position: fixed; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%; pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
         }
-        .photo-frame:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-        /* Manifesto "Inky" Effect */
-        .manifesto-text {
-            background: linear-gradient(to right, #0f172a 50%, #94a3b8 50%);
-            background-size: 200% 100%;
-            background-position: 100% 0;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: background-position 1s ease-out;
+        /* Typography Motion */
+        .outline-text {
+            color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+            transition: all 0.6s ease;
         }
-        .manifesto-section:hover .manifesto-text { background-position: 0 0; }
+        .outline-text:hover { -webkit-text-stroke: 1px var(--picao-indigo); color: white; }
 
-        .btn-pop { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .btn-pop:hover { transform: translateY(-2px) scale(1.02); }
+        /* Darkroom Gallery Frames */
+        .gallery-frame {
+            position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: #0a0a0a;
+            transition: border 0.5s ease;
+        }
+        .gallery-frame:hover { border-color: var(--picao-indigo); }
+        .gallery-frame img { 
+            filter: grayscale(100%) contrast(1.2); 
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); 
+        }
+        .gallery-frame:hover img { filter: grayscale(0%) contrast(1); transform: scale(1.05); }
+
+        /* Vertical Progress Line (The Craft Timeline) */
+        .timeline-line {
+            position: absolute; left: 50%; width: 1px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--picao-indigo), var(--picao-purple), transparent);
+            opacity: 0.3;
+        }
+
+        /* Bento-Style Notes */
+        .bento-card {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s ease;
+        }
+        .bento-card:hover { background: rgba(255,255,255,0.05); transform: translateY(-5px); }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="sticky-nav">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 w-auto">
-                <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
-            </div>
-            <div class="flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.3em]">
-                <a href="#archive" class="hover:text-[#6366f1] transition-colors">Archive</a>
-                <a href="#notes" class="hover:text-[#6366f1] transition-colors">Notes</a>
-                <a href="#academy" class="text-[#6366f1]">Academy</a>
-                <a href="#manifesto" class="italic serif lowercase font-normal text-slate-400">the manifesto</a>
-            </div>
+    <div id="spotlight"></div>
+
+    <nav class="fixed w-full z-[100] px-8 py-6 flex justify-between items-center mix-blend-difference">
+        <div class="flex items-center gap-4">
+            <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert">
+            <span class="font-black text-xl tracking-tighter uppercase text-white">Pictology<span class="text-[#6366f1]">HQ</span></span>
+        </div>
+        <div class="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em]">
+            <a href="#manifesto" class="hover:text-[#6366f1] transition-colors">Manifesto</a>
+            <a href="#archive" class="hover:text-[#6366f1] transition-colors">Archive</a>
+            <a href="#notes" class="hover:text-[#6366f1] transition-colors">Notes</a>
+            <a href="#academy" class="text-[#6366f1]">Academy</a>
         </div>
     </nav>
 
-    <header class="max-w-6xl mx-auto px-6 pt-32 pb-24 reveal active">
-        <h1 class="serif text-7xl md:text-[10rem] leading-[0.85] mb-12 tracking-tighter">
-            Study the <br><span class="italic text-slate-200">light.</span>
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 relative">
+        <h1 class="serif text-8xl md:text-[14rem] leading-none text-center select-none z-10">
+            Real <span class="italic outline-text">Work.</span>
         </h1>
-        <div class="flex flex-col md:flex-row justify-between items-end border-t border-slate-100 pt-8">
-            <p class="text-xl md:text-2xl text-slate-500 font-light max-w-xl">
-                A sanctuary for the intentional frame. Releasing for public use February 1st.
-            </p>
-            <span class="version-stamp text-[10px] uppercase tracking-widest text-slate-300">Build Stable 260130</span>
-        </div>
-    </header>
-
-    <section id="manifesto" class="manifesto-section bg-white py-40 border-y border-slate-50 overflow-hidden">
-        <div class="max-w-5xl mx-auto px-6">
-            <h2 class="text-[10px] font-black uppercase tracking-[0.5em] text-[#6366f1] mb-12 text-center">Our Statement of Intent</h2>
-            <div class="serif text-4xl md:text-6xl leading-tight font-light">
-                <p class="manifesto-text mb-8">The algorithm has commodified the eye.</p>
-                <p class="manifesto-text mb-8">We believe in the slow capture, the archival narrative, and the refusal to shoot for vanity metrics.</p>
-                <p class="manifesto-text">We do not care for the "feed." We care for the work.</p>
+        <div class="mt-12 text-center z-10">
+            <p class="serif italic text-2xl text-slate-400 max-w-xl mx-auto mb-6">"The eye should learn to listen before it looks."</p>
+            <div class="flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.5em] text-slate-500 font-bold">
+                <span>01 FEB 2026</span>
+                <span class="h-1 w-1 rounded-full bg-indigo-500"></span>
+                <span>The Archive Opens</span>
             </div>
         </div>
     </section>
 
-    <section id="archive" class="max-w-7xl mx-auto px-6 py-32 reveal">
-        <div class="flex justify-between items-end mb-16">
-            <h2 class="serif text-4xl italic font-normal">001: The Geometry of Solitude</h2>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-300">Weekly Study</span>
+    <section id="manifesto" class="relative py-60">
+        <div class="timeline-line"></div>
+        <div class="max-w-4xl mx-auto px-6 space-y-40">
+            <div class="flex justify-start">
+                <div class="max-w-md">
+                    <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest block mb-4">01 / The Refusal</span>
+                    <h2 class="serif text-5xl italic mb-6">The Algorithm is a parasite.</h2>
+                    <p class="text-slate-400 leading-relaxed font-light">We refuse the dopamine loop of the infinite scroll. Pictology is a static gallery where time is the only metric of value.</p>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <div class="max-w-md text-right">
+                    <span class="text-[10px] font-bold text-purple-500 uppercase tracking-widest block mb-4">02 / The Intent</span>
+                    <h2 class="serif text-5xl italic mb-6">Narrative over pixels.</h2>
+                    <p class="text-slate-400 leading-relaxed font-light">Every frame must say something. If it doesn't speak, it doesn't belong in the Archive. Curation is an act of war against noise.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="archive" class="py-40 bg-[#080808]">
+        <div class="max-w-7xl mx-auto px-6 mb-20">
+            <h2 class="serif text-6xl">The Weekly Study <span class="text-indigo-500">.</span></h2>
+            <p class="text-slate-500 mt-4 uppercase tracking-[0.3em] text-[10px] font-bold">Edition 001: The Geometry of Solitude</p>
         </div>
         
-        <div class="grid md:grid-cols-12 gap-12 items-start">
-            <div class="md:col-span-8 photo-frame aspect-[16/10] rounded-sm">
-                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover" alt="Study Main">
+        <div class="flex overflow-x-auto gap-12 px-6 pb-20 no-scrollbar">
+            <div class="gallery-frame min-w-[350px] md:min-w-[600px] aspect-[4/5]">
+                <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02" class="w-full h-full object-cover" alt="Study 1">
+                <div class="absolute bottom-6 left-6 text-[10px] font-bold uppercase tracking-widest opacity-0 hover:opacity-100 transition-opacity">Plate No. 001-A</div>
             </div>
-            <div class="md:col-span-4 space-y-8">
-                <div class="border-l-2 border-[#6366f1] pl-6">
-                    <h3 class="font-bold text-sm uppercase tracking-widest mb-2">Technique</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Exploring high-contrast shadows to define structural absence.</p>
-                </div>
-                <div class="border-l-2 border-slate-200 pl-6">
-                    <h3 class="font-bold text-sm uppercase tracking-widest mb-2">Curation</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Featured Study by PHQ Internal Archive.</p>
-                </div>
+            <div class="gallery-frame min-w-[350px] md:min-w-[600px] aspect-[4/5]">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34" class="w-full h-full object-cover" alt="Study 2">
+                <div class="absolute bottom-6 left-6 text-[10px] font-bold uppercase tracking-widest opacity-0 hover:opacity-100 transition-opacity">Plate No. 001-B</div>
             </div>
-        </div>
-    </section>
-
-    <section id="notes" class="bg-slate-50 py-32 border-y border-slate-100 reveal">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-center mb-16">
-                <h2 class="serif text-5xl">Notes on Craft</h2>
-                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-[#0f172a] pb-1">All Notes</a>
-            </div>
-            <div class="grid md:grid-cols-3 gap-12">
-                <article class="group cursor-pointer">
-                    <div class="photo-frame aspect-[4/3] mb-6">
-                        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale" alt="Blog 1">
-                    </div>
-                    <span class="text-[10px] font-bold text-[#a855f7] uppercase">Philosophy</span>
-                    <h3 class="serif text-2xl my-3 group-hover:text-[#6366f1] transition-colors italic">Creating for One.</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Why your best work happens when you ignore the crowd...</p>
-                </article>
-                <article class="group cursor-pointer">
-                    <div class="photo-frame aspect-[4/3] mb-6">
-                        <img src="https://images.unsplash.com/photo-1495121553079-4c61bbbc19df?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale" alt="Blog 2">
-                    </div>
-                    <span class="text-[10px] font-bold text-[#a855f7] uppercase">Technique</span>
-                    <h3 class="serif text-2xl my-3 group-hover:text-[#6366f1] transition-colors italic">The 35mm Narrative.</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Grain as a defect vs. grain as a texture of time...</p>
-                </article>
-                <article class="group cursor-pointer">
-                    <div class="photo-frame aspect-[4/3] mb-6 shadow-2xl shadow-indigo-500/10">
-                        <div class="w-full h-full picao-gradient flex items-center justify-center p-8">
-                            <img src="Picao-Logo.png" alt="Picao" class="h-12 w-auto brightness-200 opacity-80">
-                        </div>
-                    </div>
-                    <span class="text-[10px] font-bold text-[#6366f1] uppercase">Ecosystem</span>
-                    <h3 class="serif text-2xl my-3 group-hover:text-[#6366f1] transition-colors italic">Built with Picao AI.</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">How we use unified AI tools to curate, ideate, and launch faster.</p>
-                </article>
+            <div class="gallery-frame min-w-[350px] md:min-w-[600px] aspect-[4/5]">
+                <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26" class="w-full h-full object-cover" alt="Study 3">
+                <div class="absolute bottom-6 left-6 text-[10px] font-bold uppercase tracking-widest opacity-0 hover:opacity-100 transition-opacity">Plate No. 001-C</div>
             </div>
         </div>
     </section>
 
-    <section class="max-w-5xl mx-auto px-6 py-40 text-center reveal">
-        <img src="Picao-Logo.png" alt="Picao AI" class="h-10 mx-auto mb-8 grayscale opacity-20">
-        <h2 class="serif text-4xl mb-6 italic">The Engine Behind the Craft.</h2>
-        <p class="text-slate-500 text-lg leading-relaxed max-w-2xl mx-auto mb-10 font-light">
-            Pictology HQ is powered by <span class="text-[#0f172a] font-bold">Picao AI</span>—an all-in-one platform helping us ideate, create, and launch these studies with focused speed.
-        </p>
-        <a href="https://www.picaoai.com" target="_blank" class="btn-pop bg-[#0f172a] text-white px-10 py-4 rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-xl">
-            Explore the Workspace
-        </a>
+    <section id="notes" class="py-40 max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 md:grid-rows-2 gap-6 h-[800px]">
+            <div class="md:col-span-2 md:row-span-2 bento-card p-12 flex flex-col justify-end">
+                <span class="text-indigo-500 font-bold text-[10px] uppercase mb-4 tracking-widest italic">Featured Note</span>
+                <h3 class="serif text-4xl mb-6">Why the 24-hour rule is our most powerful lens.</h3>
+                <p class="text-slate-400 leading-relaxed font-light mb-8">How Picao AI allows us to move from ideation to launch without losing the soul of the craft.</p>
+                <a href="#" class="text-[10px] font-black uppercase tracking-widest border-b border-white pb-2 w-fit">Read Entry</a>
+            </div>
+            <div class="md:col-span-2 bento-card p-10">
+                <span class="text-purple-400 font-bold text-[10px] uppercase mb-4 tracking-widest">Philosophy</span>
+                <h3 class="serif text-2xl mb-4">Creating for One.</h3>
+                <p class="text-slate-500 text-sm font-light">The freedom found in zero metrics.</p>
+            </div>
+            <div class="md:col-span-1 bento-card p-10">
+                <span class="text-slate-500 font-bold text-[10px] uppercase mb-4 tracking-widest">Gear</span>
+                <h3 class="serif text-2xl mb-4">The Single Body.</h3>
+            </div>
+            <div class="md:col-span-1 bento-card p-10 flex items-center justify-center picao-gradient overflow-hidden group">
+                <img src="Picao-Logo.png" alt="Picao AI" class="h-12 invert opacity-50 group-hover:scale-110 transition-transform">
+            </div>
+        </div>
     </section>
 
-    <footer class="py-20 text-center border-t border-slate-100">
-        <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-8 mx-auto mb-6 opacity-20 grayscale">
-        <p class="text-[10px] uppercase tracking-[0.6em] text-slate-300">© 2026 Pictology HQ • Independent Craft</p>
+    <section class="py-60 text-center border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="inline-block p-4 rounded-full border border-indigo-500/20 mb-12">
+                <img src="Picao-Logo.png" alt="Picao" class="h-8 invert opacity-80">
+            </div>
+            <h2 class="serif text-6xl italic mb-10">Artistry meets <br> unified speed.</h2>
+            <p class="text-slate-500 text-xl leading-relaxed mb-12 font-light">
+                Pictology HQ is built, managed, and launched using <span class="text-white font-bold">Picao AI</span>. The all-in-one platform for creators who want to build mother-sites at light speed.
+            </p>
+            <a href="https://picaoai.com" class="bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-[0.4em] hover:bg-indigo-500 hover:text-white transition-all">Launch with Picao</a>
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <p class="text-[10px] uppercase tracking-[0.8em] text-slate-600 font-bold italic">Pictology HQ • Archive v0.4.5</p>
     </footer>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        // Spotlight Movement
+        const spotlight = document.getElementById('spotlight');
+        document.addEventListener('mousemove', (e) => {
+            spotlight.style.left = e.clientX + 'px';
+            spotlight.style.top = e.clientY + 'px';
+        });
     </script>
 
 </body>
