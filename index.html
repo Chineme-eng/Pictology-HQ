@@ -13,7 +13,7 @@
         body { font-family: 'Inter', sans-serif; transition: background 1.2s ease, color 1.2s ease; overflow-x: hidden; }
         .serif { font-family: 'Lora', serif; }
 
-        /* --- THEME MODES & PREVIEWS --- */
+        /* --- THEME MODES & SHUTTER PREVIEWS --- */
         body.mode-dark { background-color: #050505; color: #f8fafc; }
         body.mode-light { background-color: #fdfdfd; color: #0f172a; }
         body.mode-safelight { background-color: #1a0000; color: #ff4d4d; }
@@ -52,21 +52,22 @@
         .preview-safe { background: #1a0000; border-left: 4px solid #ff4d4d; }
         .preview-chromatic { background: linear-gradient(135deg, #1e1b4b, #6366f1); border-left: 4px solid #a855f7; }
 
+        /* --- MANIFESTO --- */
+        .manifesto-line { opacity: 0.3; transition: all 0.8s ease; transform: translateY(10px); cursor: crosshair; }
+        .manifesto-line:hover { opacity: 1; transform: translateY(0); color: var(--picao-indigo); }
+
         /* --- ARCHIVE GEOMETRY --- */
         .horizontal-archive { display: flex; gap: 3rem; overflow-x: auto; padding-bottom: 5rem; scrollbar-width: none; }
         .art-frame { overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
         .art-frame img { filter: grayscale(100%); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); width: 100%; height: 100%; object-fit: cover; }
         .art-frame:hover img { filter: grayscale(0%); transform: scale(1.08); }
 
-        /* --- ACADEMY & LAB --- */
-        #academy-overlay { position: fixed; inset: 0; background: rgba(5,5,5,0.99); z-index: 1000; display: none; overflow-y: auto; backdrop-filter: blur(45px); }
-        #academy-overlay.active { display: block; }
+        /* --- OVERLAYS & LAB --- */
+        #academy-overlay, #legal-overlay { position: fixed; inset: 0; z-index: 1000; display: none; overflow-y: auto; backdrop-filter: blur(45px); background: rgba(5,5,5,0.99); }
+        #academy-overlay.active, #legal-overlay.active { display: block; }
         .floating-feature { position: absolute; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: rgba(255,255,255,0.15); animation: drift 12s infinite ease-in-out; }
         @keyframes drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(25px, -25px); } }
         @keyframes grain-shift { 0% { transform: translate(0,0); } 50% { transform: translate(-5%,5%); } 100% { transform: translate(0,0); } }
-
-        .manifesto-line { opacity: 0.3; transition: all 0.8s ease; transform: translateY(10px); cursor: crosshair; }
-        .manifesto-line:hover { opacity: 1; transform: translateY(0); color: var(--picao-indigo); }
     </style>
 </head>
 <body class="mode-dark antialiased">
@@ -133,7 +134,7 @@
                 </div>
                 <div class="md:col-span-4 p-10 border border-white/5 bg-white/[0.02] backdrop-blur-xl">
                     <h4 class="font-bold text-xs uppercase tracking-widest mb-6 text-indigo-400 font-mono">Technical_Log</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light mb-6">Analyzing high-contrast structural absence.</p>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light mb-6">Analyzing high-contrast structural absence. How light defines the space it cannot reach.</p>
                     <div class="flex gap-3"><span class="px-3 py-1 border border-white/10 text-[9px] font-bold uppercase text-slate-500">35mm</span><span class="px-3 py-1 border border-white/10 text-[9px] font-bold uppercase text-slate-500">B&W</span></div>
                 </div>
             </div>
@@ -145,30 +146,42 @@
         <div class="horizontal-archive px-8">
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4">The Still Life</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 001 // ISO 400</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4">The Still Life</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 001 // ISO 400 • F2.8 • 35mm</p>
+                </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4 text-white">Parisian Shadows</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 002 // ISO 800</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4 text-white">Parisian Shadows</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 002 // ISO 800 • F1.4 • 50mm</p>
+                </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4 text-white">Midnight Neon</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 003 // ISO 1600</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4 text-white">Midnight Neon</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 003 // ISO 1600 • F4.0 • 35mm</p>
+                </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4 text-white">Atmospheric Form</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 004 // ISO 100</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4 text-white">Atmospheric Form</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 004 // ISO 100 • F8.0 • 50mm</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="picao-lab py-60 overflow-hidden">
+    <section class="picao-lab py-60 relative overflow-hidden">
         <div class="floating-feature top-20 left-10">Ideate Seamlessly</div>
         <div class="floating-feature bottom-20 right-20">24H Archival Build</div>
         <div class="max-w-5xl mx-auto px-8 text-center relative z-10">
             <img src="Picao-Logo.png" alt="Picao AI" class="h-12 mx-auto mb-12 invert opacity-40">
             <h2 class="serif text-5xl md:text-8xl italic mb-10">The Engine of <br><span class="text-[#6366f1]">Creation.</span></h2>
-            <p class="text-slate-400 text-xl font-light mb-12 max-w-xl mx-auto">Pictology HQ is powered by Picao AI.</p>
+            <p class="text-slate-400 text-xl font-light mb-12 max-w-xl mx-auto">Pictology HQ is powered by Picao AI. The unified platform for speed and artisanal standards.</p>
             <a href="https://picaoai.com" target="_blank" class="bg-[#6366f1] text-white px-12 py-5 rounded-sm font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">Enter Workspace</a>
         </div>
     </section>
@@ -178,66 +191,56 @@
             <button onclick="toggleAcademy()" class="fixed top-12 right-12 text-white text-4xl font-light hover:text-indigo-500">✕</button>
             <span class="text-indigo-500 font-bold uppercase tracking-[0.6em] text-[10px] mb-8 block">The Academy Syllabus</span>
             <h2 class="serif text-7xl italic text-white mb-24">The Curriculum.</h2>
-            
             <div class="grid md:grid-cols-3 gap-16">
                 <div class="border-l border-white/10 pl-8">
                     <span class="font-mono text-[10px] text-slate-500 uppercase tracking-widest block mb-4">Phase_01 // Ideation</span>
                     <h3 class="serif text-4xl italic text-white mb-8">The Intentional Frame</h3>
                     <p class="text-slate-400 font-light leading-relaxed mb-10 text-sm">Learning to identify the 'Wedge'—the unique perspective that separates archival art from algorithmic content.</p>
-                    <ul class="font-mono text-[9px] uppercase tracking-widest space-y-4 text-slate-500">
-                        <li>- Anti-Algorithm Philosophy</li>
-                        <li>- Visual Narrative Mapping</li>
-                        <li>- Picao AI Ideation Loops</li>
-                        <li>- Conceptual Consistency</li>
-                    </ul>
+                    <ul class="font-mono text-[9px] uppercase tracking-widest space-y-4 text-slate-500"><li>- Anti-Algorithm Philosophy</li><li>- Visual Narrative Mapping</li><li>- Picao AI Ideation Loops</li></ul>
                 </div>
-
                 <div class="border-l border-white/10 pl-8">
                     <span class="font-mono text-[10px] text-slate-500 uppercase tracking-widest block mb-4">Phase_02 // Creation</span>
                     <h3 class="serif text-4xl italic text-white mb-8">Developing Narrative</h3>
                     <p class="text-slate-400 font-light leading-relaxed mb-10 text-sm">The technical study of structural absence. Using high-contrast light to define the space it cannot reach.</p>
-                    <ul class="font-mono text-[9px] uppercase tracking-widest space-y-4 text-slate-500">
-                        <li>- Advanced Tonal Geometry</li>
-                        <li>- Metadate Storytelling</li>
-                        <li>- Picao Lab Refraction</li>
-                        <li>- Studio Lighting Studies</li>
-                    </ul>
+                    <ul class="font-mono text-[9px] uppercase tracking-widest space-y-4 text-slate-500"><li>- Advanced Tonal Geometry</li><li>- Metadata Storytelling</li><li>- Picao Lab Refraction</li></ul>
                 </div>
-
-                <div class="border-l border-white/10 pl-8 bg-white/[0.02] p-8 border border-white/5 rounded-sm">
+                <div class="border-l border-indigo-500/30 pl-8 bg-white/[0.02] p-8">
                     <span class="font-mono text-[10px] text-indigo-400 uppercase tracking-widest block mb-4">Phase_03 // Launch</span>
                     <h3 class="serif text-4xl italic text-white mb-8">The Archival Standard</h3>
-                    <p class="text-slate-300 font-light leading-relaxed mb-10 text-sm">The final act of resistance. Launching your completed photographic study as a global digital archive.</p>
-                    <ul class="font-mono text-[9px] uppercase tracking-widest space-y-4 text-indigo-500/60">
-                        <li>- 24-Hour Deployment Cycle</li>
-                        <li>- Digital Curation Standards</li>
-                        <li>- Picao Engine Integration</li>
-                        <li>- Global Launch Readiness</li>
-                    </ul>
+                    <p class="text-slate-300 font-light leading-relaxed mb-10 text-sm">Launching your completed photographic study as a global digital archive in 24 hours.</p>
+                    <ul class="font-mono text-[9px] uppercase tracking-widest space-y-4 text-indigo-500"><li>- 24-Hour Deployment Cycle</li><li>- Digital Curation Standards</li><li>- Picao Engine Integration</li></ul>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="legal-overlay">
+        <div class="max-w-3xl mx-auto px-8 py-40">
+            <button onclick="toggleLegal()" class="fixed top-12 right-12 text-white text-4xl font-light hover:text-indigo-500">✕</button>
+            <h2 id="legal-title" class="serif text-6xl italic text-white mb-16"></h2>
+            <div id="legal-content" class="text-slate-400 serif italic text-sm leading-relaxed space-y-8"></div>
         </div>
     </div>
 
     <footer class="py-40 bg-black/40 border-t border-white/5 px-8">
         <div class="max-w-7xl mx-auto">
             <div class="border-b border-white/5 pb-16 mb-20 flex flex-col md:flex-row justify-between items-end gap-10">
-                <div class="max-w-sm"><h4 class="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-500 mb-6">The Archive Ledger</h4><p class="text-slate-400 font-light">Join the weekly ledger of practitioners.</p></div>
+                <div class="max-w-sm"><h4 class="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-500 mb-6">The Archive Ledger</h4><p class="text-slate-400 font-light text-sm">Join the weekly ledger of archival practitioners.</p></div>
                 <div class="flex gap-8 items-end w-full md:w-auto">
                     <input type="email" placeholder="Email Address" class="bg-transparent border-b border-white/10 py-3 text-white serif italic w-full md:min-w-[300px] focus:outline-none focus:border-[#6366f1] transition-all">
                     <button class="text-[10px] font-black uppercase tracking-[0.3em] border-b border-[#6366f1] pb-2 hover:text-[#6366f1] transition-all">Register</button>
                 </div>
             </div>
-            <div class="grid md:grid-cols-4 gap-20 pb-20">
-                <div class="col-span-2"><img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-12 mb-10 invert opacity-20"><p class="serif text-3xl italic text-slate-500 max-w-sm">"Curation is the final act of resistance."</p></div>
-                <div><h5 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">HQ Hub</h5><ul class="space-y-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 italic"><li><a onclick="toggleAcademy()" class="hover:text-white cursor-pointer">Academy</a></li></ul></div>
+            <div class="grid md:grid-cols-4 gap-20 pb-20 border-b border-white/5">
+                <div class="col-span-2"><img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-12 mb-10 invert opacity-20"><p class="serif text-3xl italic text-slate-500 max-w-sm leading-snug">"Curation is the final act of resistance."</p></div>
+                <div><h5 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">HQ Hub</h5><ul class="space-y-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 italic"><li><a onclick="toggleAcademy()" class="hover:text-white cursor-pointer transition-colors">Academy</a></li><li><a href="#manifesto" class="hover:text-white">Manifesto</a></li></ul></div>
                 <div><h5 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Connection</h5>
-                    <div class="flex gap-6 items-center"><a href="https://www.linkedin.com/company/picaoai" target="_blank" class="hover:text-indigo-500 transition-all"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a><a href="https://twitter.com/picaoai" target="_blank" class="hover:text-indigo-500 transition-all"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a></div>
+                    <div class="flex gap-6 items-center"><a href="https://linkedin.com/company/picaoai" target="_blank" class="hover:text-indigo-500"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a><a href="https://twitter.com/picaoai" target="_blank" class="hover:text-indigo-500"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a></div>
                 </div>
             </div>
-            <div class="border-t border-white/5 pt-8 flex justify-between text-[9px] font-bold uppercase tracking-[0.4em] text-slate-700">
-                <p>© 2026 Pictology HQ — A Picao AI Property</p>
-                <div class="flex gap-10"><a href="#" class="hover:text-slate-400">Privacy Policy</a><a href="#" class="hover:text-slate-400">Terms of Service</a></div>
+            <div class="pt-10 flex flex-col md:flex-row justify-between text-[9px] font-bold uppercase tracking-[0.4em] text-slate-700 gap-6">
+                <p>© 2026 Pictology HQ — A Picao AI Property • NYC Studio</p>
+                <div class="flex gap-10"><a onclick="toggleLegal('privacy')" class="hover:text-slate-400 cursor-pointer">Privacy Protocol</a><a onclick="toggleLegal('terms')" class="hover:text-slate-400 cursor-pointer">Terms of Craft</a></div>
             </div>
         </div>
     </footer>
@@ -245,6 +248,13 @@
     <script>
         function setTheme(mode) { document.body.classList.remove('mode-dark', 'mode-light', 'mode-safelight', 'mode-chromatic'); document.body.classList.add('mode-' + mode); }
         function toggleAcademy() { document.getElementById('academy-overlay').classList.toggle('active'); }
+        function toggleLegal(type) {
+            const overlay = document.getElementById('legal-overlay');
+            if(!type) { overlay.classList.remove('active'); return; }
+            overlay.classList.add('active');
+            document.getElementById('legal-title').innerText = type === 'privacy' ? 'Privacy Protocol.' : 'Terms of Craft.';
+            document.getElementById('legal-content').innerHTML = type === 'privacy' ? '<p>Pictology HQ respects archival integrity. Email collection is strictly for Ledger updates via Picao AI secure nodes.</p><p>We do not sell data to algorithmic 'feeds'.</p>' : '<p>Images are for study and artistic inspiration. Commercial reproduction without licensing is prohibited.</p><p>Academy access is for individual practitioners.</p>';
+        }
     </script>
 </body>
 </html>
