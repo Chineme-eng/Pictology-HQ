@@ -10,6 +10,7 @@
         body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; color: #0f172a; scroll-behavior: smooth; }
         .serif { font-family: 'Lora', serif; }
         
+        /* Sticky Navigation with Glassmorphism */
         .sticky-nav {
             position: sticky;
             top: 0;
@@ -19,6 +20,7 @@
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
+        /* Tactical Button Interaction */
         .btn-pop {
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
         }
@@ -27,6 +29,7 @@
             box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.25);
         }
 
+        /* Build Version Stamp */
         .version-stamp {
             font-family: ui-monospace, monospace;
             font-size: 10px;
@@ -34,6 +37,7 @@
             color: #94a3b8;
         }
 
+        /* Gallery Reveal Effect */
         .gallery-item img {
             transition: filter 0.6s ease, transform 0.6s ease;
             filter: grayscale(100%);
@@ -51,7 +55,7 @@
             <div class="flex items-center gap-3">
                 <img src="Pictology HQ Logo (2).png" alt="PHQ Logo" class="h-10 w-auto">
                 <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
-                <span class="version-stamp ml-3 hidden md:inline border-l border-slate-200 pl-3">v0.1.0-STABLE</span>
+                <span class="version-stamp ml-3 hidden md:inline border-l border-slate-200 pl-3">BUILD_260130_STABLE</span>
             </div>
             <div class="flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">
                 <a href="#archive" class="hover:text-[#6366f1] transition-colors">Archive</a>
@@ -67,20 +71,23 @@
         </h1>
         <p class="text-xl md:text-2xl text-slate-500 font-light leading-relaxed max-w-2xl mx-auto">
             A photography platform for learning, sharing, and discovering real work. 
-            Released for public use on <span class="font-semibold text-[#0f172a]">February 1st</span>.
+            No vanity metrics. No algorithm. Just the craft.
         </p>
+        <div class="mt-8 text-xs font-bold uppercase tracking-widest text-slate-400">
+            System Release: 01 February 2026
+        </div>
     </header>
 
     <main id="archive" class="max-w-7xl mx-auto px-6 pb-32">
         <div class="flex justify-between items-end mb-12 border-b border-slate-100 pb-4">
-            <h2 class="serif text-2xl">The Weekly Study: <span class="italic text-slate-400">Atmospheric Narrative</span></h2>
-            <p class="text-[10px] uppercase tracking-widest text-slate-400">24 photos curated this week</p>
+            <h2 class="serif text-2xl">The Weekly Study: <span class="italic text-slate-400">Tonal Narrative</span></h2>
+            <p class="text-[10px] uppercase tracking-widest text-slate-400">Curation v1.0</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-16">
             <div class="gallery-item group cursor-crosshair">
                 <div class="aspect-[4/5] bg-slate-100 overflow-hidden rounded-sm mb-6">
-                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Mountain Landscape">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Study 001">
                 </div>
                 <div class="flex justify-between items-baseline pt-4">
                     <span class="text-[10px] font-bold uppercase tracking-widest text-[#0f172a]">001 / Landscape</span>
@@ -89,11 +96,11 @@
             </div>
             <div class="gallery-item group cursor-crosshair">
                 <div class="aspect-[4/5] bg-slate-100 overflow-hidden rounded-sm mb-6">
-                    <img src="https://images.unsplash.com/photo-1511316730467-674446070f71?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Architectural Shadow">
+                    <img src="https://images.unsplash.com/photo-1511316730467-674446070f71?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Study 002">
                 </div>
                 <div class="flex justify-between items-baseline pt-4">
                     <span class="text-[10px] font-bold uppercase tracking-widest text-[#0f172a]">002 / Architecture</span>
-                    <span class="serif italic text-sm text-slate-400">Geometric Shadows</span>
+                    <span class="serif italic text-sm text-slate-400">Shadow Geometry</span>
                 </div>
             </div>
         </div>
@@ -104,7 +111,7 @@
         <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-[#a855f7]/10 blur-[80px]"></div>
         
         <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-            <h2 class="serif text-5xl mb-6">Pictology Academy</h2>
+            <h2 class="serif text-5xl mb-6 text-white">Pictology Academy</h2>
             <p class="text-slate-400 mb-12 text-lg leading-relaxed">
                 Highlighting photographers who care about the craft, not the algorithm. 
                 Our inaugural cohort begins February 1st.
@@ -120,15 +127,15 @@
         </div>
     </section>
 
-    <footer class="py-20 text-center border-t border-slate-100">
-        <div class="mb-8 opacity-20 grayscale inline-block">
+    <footer class="py-24 text-center border-t border-slate-100 bg-[#fcfcfc]">
+        <div class="mb-10 opacity-20 grayscale hover:opacity-40 transition-opacity inline-block">
              <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-8 w-auto">
         </div>
         <div class="text-[10px] uppercase tracking-[0.6em] text-slate-400">
-            © 2026 Pictology HQ • Build 260130_STABLE
+            © 2026 Pictology HQ • Independent Craft
         </div>
-        <div class="mt-4 text-[9px] text-slate-300 uppercase tracking-widest">
-            A Picao AI Verified Platform
+        <div class="mt-4 text-[9px] text-slate-300 uppercase tracking-widest font-bold">
+            Verified by Picao AI Workspace
         </div>
     </footer>
 
