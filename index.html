@@ -11,222 +11,131 @@
     <style>
         :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; }
         
-        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; }
+        /* --- THEME ENGINE --- */
+        body { font-family: 'Inter', sans-serif; transition: background 0.8s ease, color 0.8s ease; overflow-x: hidden; }
         .serif { font-family: 'Lora', serif; }
 
-        /* Animated Background System */
-        .bg-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 60px 60px, 60px 60px;
-            z-index: -1;
-        }
+        /* Mode: DARK (Default) */
+        body.mode-dark { background-color: #050505; color: #f8fafc; }
+        body.mode-dark .glass-nav { background: rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.05); }
 
-        /* Film Grain Overlay */
-        .grain {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.06; pointer-events: none; z-index: 999;
-            animation: grain-shift 8s steps(10) infinite;
-        }
+        /* Mode: LIGHT (Gallery) */
+        body.mode-light { background-color: #fdfdfd; color: #0f172a; }
+        body.mode-light .glass-nav { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.05); }
+        body.mode-light .plate-container { border-color: rgba(0,0,0,0.1); }
+
+        /* Mode: SAFELIGHT (Darkroom) */
+        body.mode-safelight { background-color: #1a0000; color: #ff4d4d; }
+        body.mode-safelight .glass-nav { background: rgba(26,0,0,0.9); border-color: rgba(255,0,0,0.1); }
+        body.mode-safelight img { filter: sepia(1) saturate(5) hue-rotate(-50deg) !important; }
+
+        /* --- BACKGROUND & EFFECTS --- */
+        .bg-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.4;
+            background-image: radial-gradient(var(--picao-indigo) 0.5px, transparent 0.5px);
+            background-size: 40px 40px; }
+        
+        .grain { position: fixed; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.06; pointer-events: none; z-index: 999; animation: grain-shift 8s steps(10) infinite; }
+
         @keyframes grain-shift {
             0%, 100% { transform: translate(0,0); }
-            10% { transform: translate(-5%,-5%); }
-            30% { transform: translate(5%,-10%); }
-            50% { transform: translate(-10%,5%); }
-            70% { transform: translate(8%,8%); }
+            10% { transform: translate(-5%, -5%); }
+            50% { transform: translate(-10%, 5%); }
         }
 
-        /* Pulsing Logo Status */
-        .logo-status {
-            position: relative;
-        }
-        .logo-status::after {
-            content: '';
-            position: absolute; -top: 2px; -right: -2px;
-            width: 8px; height: 8px;
-            background: var(--picao-indigo);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--picao-indigo);
-            animation: status-pulse 2s infinite;
-        }
-        @keyframes status-pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
+        /* --- PLATE REVEAL SYSTEM --- */
+        .plate-container { position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: border 0.4s ease; }
+        .plate-img { filter: grayscale(100%); transition: all 1s cubic-bezier(0.19, 1, 0.22, 1); }
+        .plate-container:hover .plate-img { filter: grayscale(0%); transform: scale(1.03); }
+        
+        .exif-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.85); opacity: 0; 
+            transition: opacity 0.4s ease; display: flex; flex-direction: column; justify-content: center; padding: 2rem; }
+        .plate-container:hover .exif-overlay { opacity: 1; }
 
-        /* Grayscale to Color Reveal */
-        .art-frame { overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); transition: border 0.4s ease; }
-        .art-frame img { 
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%) contrast(1.1);
-            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .art-frame:hover { border-color: var(--picao-indigo); }
-        .art-frame:hover img { filter: grayscale(0%) contrast(1); transform: scale(1.05); }
-
-        /* Typography Effects */
-        .manifesto-line { 
-            opacity: 0.3; transition: all 0.8s ease; transform: translateY(10px); 
-        }
-        .manifesto-line:hover { opacity: 1; transform: translateY(0); color: var(--picao-indigo); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--picao-indigo); }
+        /* --- LOADER --- */
+        #loader { position: fixed; inset: 0; background: #3d0000; z-index: 2000; display: flex; align-items: center; justify-content: center; transition: opacity 1s ease; }
     </style>
 </head>
-<body class="antialiased">
+<body class="mode-dark antialiased">
+
+    <div id="loader"><p class="serif italic text-red-600 text-2xl animate-pulse">Developing Archive...</p></div>
     <div class="bg-canvas"></div>
     <div class="grain"></div>
 
-    <nav class="fixed w-full z-[100] border-b border-white/5 bg-black/50 backdrop-blur-xl px-8 py-4 flex justify-between items-center">
+    <nav class="fixed w-full z-[100] glass-nav backdrop-blur-md border-b px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <div class="logo-status">
-                <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert">
-            </div>
-            <span class="font-black text-xl tracking-tighter uppercase text-white">Pictology<span class="text-[#6366f1]">HQ</span></span>
+            <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert">
+            <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
         </div>
-        <div class="flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.4em]">
-            <a href="#manifesto" class="hover:text-[#6366f1] transition-all">Manifesto</a>
-            <a href="#archive" class="hover:text-[#6366f1] transition-all">Archive</a>
-            <a href="#study" class="hover:text-[#6366f1] transition-all">Weekly Study</a>
-            <button class="bg-white text-black px-4 py-2 rounded-sm hover:bg-[#6366f1] hover:text-white transition-all">Academy</button>
+        
+        <div class="flex items-center gap-6">
+            <div class="flex bg-white/5 p-1 rounded-full border border-white/10">
+                <button onclick="setTheme('dark')" class="px-3 py-1 text-[9px] uppercase font-bold hover:text-white">Dark</button>
+                <button onclick="setTheme('light')" class="px-3 py-1 text-[9px] uppercase font-bold hover:text-white">Light</button>
+                <button onclick="setTheme('safelight')" class="px-3 py-1 text-[9px] uppercase font-bold hover:text-red-500 text-red-800">Safelight</button>
+            </div>
+            <a href="https://picaoai.com" target="_blank" class="text-[10px] font-bold uppercase tracking-widest bg-[#6366f1] text-white px-4 py-2 rounded-sm">Picao Engine</a>
         </div>
     </nav>
 
-    <header class="min-h-screen flex flex-col justify-center px-8 relative">
+    <header class="min-h-screen flex flex-col justify-center px-8">
         <div class="max-w-7xl mx-auto w-full">
-            <div class="flex items-center gap-4 mb-8">
-                <span class="h-[1px] w-12 bg-indigo-500"></span>
-                <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-500">New York Digital Studio</span>
-            </div>
-            <h1 class="serif text-7xl md:text-[10rem] leading-[0.8] tracking-tighter mb-12">
-                The <span class="italic text-slate-500">Archival</span> <br> Standard.
+            <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-500 block mb-6">Established 2026 • New York Studio</span>
+            <h1 class="serif text-7xl md:text-[9rem] leading-[0.8] tracking-tighter mb-12">
+                The <span class="italic opacity-50">Archival</span> <br> Standard.
             </h1>
-            <p class="text-xl md:text-3xl font-light text-slate-400 max-w-2xl leading-relaxed">
-                A photography platform for learning, sharing, and discovering real work. Releasing February 1st.
+            <p class="text-xl md:text-2xl font-light max-w-xl leading-relaxed opacity-60">
+                Pictology is a photography platform for learning, sharing, and discovering real work.
             </p>
         </div>
     </header>
 
-    <section id="manifesto" class="py-60 border-y border-white/5">
-        <div class="max-w-5xl mx-auto px-8">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-500 mb-20 text-center">Statement of Intent</h2>
-            <div class="serif text-4xl md:text-6xl space-y-12 leading-tight italic">
-                <p class="manifesto-line">The algorithm has commodified the human eye.</p>
-                <p class="manifesto-line">We believe in the slow capture, the archival narrative, and the refusal to shoot for vanity metrics.</p>
-                <p class="manifesto-line text-white">Pictology HQ is a sanctuary for those who study the craft.</p>
-                <p class="manifesto-line">We do not care for the "feed." We care for the work.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="study" class="py-40 bg-white/[0.02]">
-        <div class="max-w-7xl mx-auto px-8">
-            <div class="flex justify-between items-end mb-16 border-b border-white/10 pb-8">
-                <div>
-                    <h2 class="serif text-5xl mb-4">Weekly Study <span class="text-indigo-500 italic text-2xl">v0.1</span></h2>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-500">Edition 001: The Geometry of Solitude</p>
-                </div>
-                <div class="text-right hidden md:block">
-                    <p class="text-xs text-slate-500 italic serif">"Photography is an act of listening with the eyes."</p>
-                </div>
-            </div>
-            
-            <div class="grid md:grid-cols-12 gap-12 items-center">
-                <div class="md:col-span-8 art-frame aspect-[16/10] shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1600&q=80">
-                </div>
-                <div class="md:col-span-4 space-y-8">
-                    <div class="p-8 border border-white/5 bg-white/[0.02] backdrop-blur-md">
-                        <h4 class="font-bold text-xs uppercase tracking-widest mb-4 text-indigo-400">Technical Note</h4>
-                        <p class="text-sm text-slate-400 leading-relaxed">This week explores high-contrast architecture. We focus on how light defines structural absence rather than the structure itself.</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="h-12 w-12 border border-white/10 flex items-center justify-center text-[10px] font-bold">B&W</span>
-                        <span class="h-12 w-12 border border-white/10 flex items-center justify-center text-[10px] font-bold">35mm</span>
-                    </div>
-                </div>
+    <section class="py-60 border-y border-white/5">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="serif text-5xl italic mb-12">The Manifesto</h2>
+            <div class="space-y-12 text-xl md:text-3xl font-light opacity-60 leading-tight">
+                <p>We believe in the slow capture and the archival narrative.</p>
+                <p class="italic text-white">We do not care for the algorithm. We care for the craft.</p>
+                <p>Curated using Picao AI—the all-in-one workspace for builders.</p>
             </div>
         </div>
     </section>
 
     <section id="archive" class="py-40 max-w-7xl mx-auto px-8">
-        <div class="flex flex-col md:flex-row justify-between items-baseline mb-20 gap-8">
-            <h2 class="serif text-7xl">Archive<span class="text-indigo-500">.</span></h2>
-            <div class="text-right">
-                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-2">Curated Collection</p>
-                <p class="serif italic text-slate-400 text-lg">Real Work • Real Craft</p>
-            </div>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="art-frame aspect-[4/5] relative group">
-                <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80">
-                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 mb-2">Plate 001</span>
-                    <h3 class="serif text-xl italic text-white">Midnight in Shinjuku</h3>
+        <h2 class="serif text-6xl mb-20">The Archive.</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="plate-container aspect-[4/5]">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34" class="plate-img h-full w-full object-cover">
+                <div class="exif-overlay">
+                    <span class="text-[9px] font-bold uppercase text-indigo-400 mb-4">Plate No. 001</span>
+                    <h3 class="serif text-2xl italic mb-4 text-white">Parisian Geometry</h3>
+                    <div class="text-[10px] font-mono uppercase opacity-60 border-t border-white/10 pt-4">
+                        <p>Lens: 35mm f/2.0</p>
+                        <p>Film: HP5 Plus</p>
+                    </div>
                 </div>
             </div>
-            <div class="art-frame aspect-[4/5] relative group">
-                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80">
-                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 mb-2">Plate 002</span>
-                    <h3 class="serif text-xl italic text-white">The Parisian Shadow</h3>
-                </div>
             </div>
-            <div class="art-frame aspect-[4/5] relative group">
-                <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&w=800&q=80">
-                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 mb-2">Plate 003</span>
-                    <h3 class="serif text-xl italic text-white">Atmospheric Depth</h3>
-                </div>
-            </div>
-        </div>
     </section>
 
-    <section class="py-60 border-t border-white/5 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[#6366f1]/5 blur-[120px] rounded-full -top-40 -right-40 w-[600px] h-[600px]"></div>
-        <div class="max-w-4xl mx-auto px-8 text-center relative z-10">
-            <img src="Picao-Logo.png" alt="Picao" class="h-10 mx-auto mb-12 invert opacity-40">
-            <h2 class="serif text-5xl md:text-7xl italic mb-8">Artistry meets <br> unified speed.</h2>
-            <p class="text-slate-400 text-xl font-light leading-relaxed mb-12">
-                Pictology HQ is powered by <span class="text-white font-bold">Picao AI</span>. We use the all-in-one workspace to ideate, curate, and launch studies at archival standards in 24-hour cycles.
-            </p>
-            <a href="https://picaoai.com" class="inline-block bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-[0.4em] hover:bg-indigo-500 hover:text-white transition-all">Launch with Picao</a>
+    <footer class="py-32 border-t border-white/5 text-center">
+        <div class="flex justify-center gap-4 mb-8 opacity-20 invert">
+            <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-6">
+            <img src="Picao-Logo.png" alt="Picao" class="h-6">
         </div>
-    </section>
-
-    <footer class="py-32 border-t border-white/5 bg-black/50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-8 grid md:grid-cols-3 gap-16">
-            <div>
-                <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 mb-8 invert opacity-30">
-                <p class="serif italic text-slate-500">"The algorithm commodifies the eye. We choose to see."</p>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Location</h4>
-                <p class="text-sm font-light text-slate-400 italic">
-                    Pictology HQ Digital Archive<br>
-                    Manhattan, New York<br>
-                    Est. 2026
-                </p>
-            </div>
-            <div class="text-right">
-                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">System Status</h4>
-                <p class="text-[10px] font-mono text-indigo-500 uppercase tracking-widest">Build_260130_STABLE</p>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-[10px] uppercase tracking-[0.4em] text-slate-600 font-bold text-center">
-            © 2026 Pictology HQ — A Picao AI Property
-        </div>
+        <p class="text-[10px] uppercase tracking-[0.8em] opacity-40 italic">Pictology HQ • Studio New York • Feb 01 Release</p>
+        <p class="text-[9px] uppercase tracking-widest opacity-30 mt-4">Powered by Picao AI</p>
     </footer>
 
+    <script>
+        function setTheme(mode) {
+            document.body.classList.remove('mode-dark', 'mode-light', 'mode-safelight');
+            document.body.classList.add('mode-' + mode);
+        }
+        window.addEventListener('load', () => {
+            setTimeout(() => { document.getElementById('loader').style.opacity = '0'; }, 1500);
+            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 2500);
+        });
+    </script>
 </body>
 </html>
