@@ -7,97 +7,129 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; color: #0f172a; scroll-behavior: smooth; }
         .serif { font-family: 'Lora', serif; }
-        .logo-bold { font-weight: 900; letter-spacing: -0.05em; }
         
-        /* Masonry-style column layout */
-        .masonry {
-            column-count: 1;
-            column-gap: 2rem;
-        }
-        @media (min-width: 768px) { .masonry { column-count: 2; } }
-        
-        .gallery-item {
-            break-inside: avoid;
-            margin-bottom: 2rem;
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        .dark-mode { background-color: #0a0a0a; color: #ffffff; }
-        .dark-mode .border-slate-100 { border-color: #1a1a1a; }
-        .dark-mode .text-slate-500 { color: #888; }
+        .btn-pop {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+        }
+        .btn-pop:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.25);
+        }
+
+        .version-stamp {
+            font-family: ui-monospace, monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+        }
+
+        .gallery-item img {
+            transition: filter 0.6s ease, transform 0.6s ease;
+            filter: grayscale(100%);
+        }
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.03);
+        }
     </style>
 </head>
-<body id="body" class="antialiased">
+<body class="antialiased">
 
-    <div class="bg-[#000] text-white text-[10px] tracking-[0.4em] py-3 text-center uppercase font-black border-b border-white/10">
-        System Release: 01 FEB 2026
-    </div>
-
-    <nav class="max-w-7xl mx-auto px-8 py-10 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-12 w-auto">
-            <div class="hidden sm:block h-8 w-[1px] bg-slate-200 mx-2"></div>
-            <span class="hidden sm:block logo-bold text-2xl uppercase">Pictology</span>
-        </div>
-        
-        <div class="flex items-center gap-8">
-            <div class="flex gap-6 text-[11px] uppercase tracking-widest font-bold">
-                <a href="#" class="hover:opacity-50 transition-opacity">Archive</a>
-                <a href="#" class="hover:opacity-50 transition-opacity text-indigo-500">Academy</a>
+    <nav class="sticky-nav">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="Pictology HQ Logo (2).png" alt="PHQ Logo" class="h-10 w-auto">
+                <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
+                <span class="version-stamp ml-3 hidden md:inline border-l border-slate-200 pl-3">v0.1.0-STABLE</span>
             </div>
-            <button onclick="document.getElementById('body').classList.toggle('dark-mode')" class="p-2 border border-slate-200 rounded-full hover:bg-slate-50 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-            </button>
+            <div class="flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">
+                <a href="#archive" class="hover:text-[#6366f1] transition-colors">Archive</a>
+                <a href="#academy" class="text-[#6366f1] hover:opacity-70">Academy</a>
+                <button class="bg-[#0f172a] text-white px-5 py-2.5 rounded-lg btn-pop">Join the Craft</button>
+            </div>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto px-8 py-24">
-        <div class="max-w-4xl">
-            <h2 class="serif text-5xl md:text-7xl leading-[1.1] mb-10">
-                Study the craft. <br>
-                <span class="italic text-slate-400">Ignore the algorithm.</span>
-            </h2>
-            <p class="text-xl md:text-2xl text-slate-500 font-light leading-relaxed max-w-2xl">
-                A curated platform for photographers who value narrative over vanity metrics. Learning, sharing, and discovering real work.
-            </p>
-        </div>
+    <header class="max-w-5xl mx-auto px-6 pt-32 pb-24 text-center">
+        <h1 class="serif text-6xl md:text-8xl leading-none mb-8">
+            Study the <span class="italic text-slate-400 font-normal">light.</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-slate-500 font-light leading-relaxed max-w-2xl mx-auto">
+            A photography platform for learning, sharing, and discovering real work. 
+            Released for public use on <span class="font-semibold text-[#0f172a]">February 1st</span>.
+        </p>
     </header>
 
-    <main class="max-w-7xl mx-auto px-8 pb-32">
-        <div class="masonry">
+    <main id="archive" class="max-w-7xl mx-auto px-6 pb-32">
+        <div class="flex justify-between items-end mb-12 border-b border-slate-100 pb-4">
+            <h2 class="serif text-2xl">The Weekly Study: <span class="italic text-slate-400">Atmospheric Narrative</span></h2>
+            <p class="text-[10px] uppercase tracking-widest text-slate-400">24 photos curated this week</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-16">
             <div class="gallery-item group cursor-crosshair">
-                <div class="overflow-hidden bg-slate-100 aspect-square mb-4">
-                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Tech">
+                <div class="aspect-[4/5] bg-slate-100 overflow-hidden rounded-sm mb-6">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Mountain Landscape">
                 </div>
-                <div class="flex justify-between items-end border-b border-slate-100 pb-2">
-                    <span class="text-[10px] uppercase tracking-widest font-bold">001 / Landscape</span>
-                    <span class="serif italic text-sm text-slate-400">Study of Silence</span>
+                <div class="flex justify-between items-baseline pt-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#0f172a]">001 / Landscape</span>
+                    <span class="serif italic text-sm text-slate-400">Silent Peaks</span>
                 </div>
             </div>
-
-            <div class="gallery-item bg-indigo-600 p-12 text-white">
-                <span class="text-[10px] uppercase tracking-[0.3em] font-bold opacity-60">Pictology Academy</span>
-                <h3 class="serif text-3xl my-6">Mastering Intentional Blurring in Street Narrative.</h3>
-                <p class="text-indigo-100 mb-8 text-sm leading-relaxed">Our first curated course launches Feb 1st. Limited seats for the inaugural cohort.</p>
-                <a href="#" class="inline-block border-b-2 border-white pb-1 font-bold text-xs uppercase tracking-widest hover:opacity-70 transition-opacity">Request Syllabus</a>
-            </div>
-
             <div class="gallery-item group cursor-crosshair">
-                <div class="overflow-hidden bg-slate-100 aspect-[3/4] mb-4">
-                    <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Street">
+                <div class="aspect-[4/5] bg-slate-100 overflow-hidden rounded-sm mb-6">
+                    <img src="https://images.unsplash.com/photo-1511316730467-674446070f71?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Architectural Shadow">
                 </div>
-                <div class="flex justify-between items-end border-b border-slate-100 pb-2">
-                    <span class="text-[10px] uppercase tracking-widest font-bold">002 / Street</span>
-                    <span class="serif italic text-sm text-slate-400">Midnight in Shinjuku</span>
+                <div class="flex justify-between items-baseline pt-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#0f172a]">002 / Architecture</span>
+                    <span class="serif italic text-sm text-slate-400">Geometric Shadows</span>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="py-20 border-t border-slate-100 text-center">
-        <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-8 mx-auto opacity-20 mb-6 grayscale">
-        <p class="text-[10px] uppercase tracking-[0.5em] text-slate-400">Pictology HQ • Est. 2026</p>
+    <section id="academy" class="bg-[#0f172a] text-white py-32 relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#6366f1]/10 blur-[100px]"></div>
+        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-[#a855f7]/10 blur-[80px]"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="serif text-5xl mb-6">Pictology Academy</h2>
+            <p class="text-slate-400 mb-12 text-lg leading-relaxed">
+                Highlighting photographers who care about the craft, not the algorithm. 
+                Our inaugural cohort begins February 1st.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button class="bg-[#6366f1] hover:bg-[#a855f7] text-white px-10 py-4 rounded-xl font-bold uppercase text-xs tracking-widest transition-all btn-pop">
+                    Browse Courses
+                </button>
+                <button class="border border-white/20 hover:bg-white/5 text-white px-10 py-4 rounded-xl font-bold uppercase text-xs tracking-widest transition-all">
+                    Request Syllabus
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-slate-100">
+        <div class="mb-8 opacity-20 grayscale inline-block">
+             <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-8 w-auto">
+        </div>
+        <div class="text-[10px] uppercase tracking-[0.6em] text-slate-400">
+            © 2026 Pictology HQ • Build 260130_STABLE
+        </div>
+        <div class="mt-4 text-[9px] text-slate-300 uppercase tracking-widest">
+            A Picao AI Verified Platform
+        </div>
     </footer>
 
 </body>
