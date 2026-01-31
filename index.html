@@ -13,7 +13,7 @@
         body { font-family: 'Inter', sans-serif; transition: background 1.2s ease, color 1.2s ease; overflow-x: hidden; }
         .serif { font-family: 'Lora', serif; }
 
-        /* --- THEME MODES & PREVIEWS --- */
+        /* --- THEME MODES & SHUTTER PREVIEWS --- */
         body.mode-dark { background-color: #050505; color: #f8fafc; }
         body.mode-light { background-color: #fdfdfd; color: #0f172a; }
         body.mode-safelight { background-color: #1a0000; color: #ff4d4d; }
@@ -29,7 +29,7 @@
         .logo-ring::before { content: ''; position: absolute; inset: -5px; border: 1px solid var(--picao-indigo); border-radius: 2px; animation: spin 15s linear infinite; opacity: 0.4; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- BASELINE GHOST WORDS --- */
+        /* --- PERFECT BASELINE GHOST WORDS --- */
         .ghost-carousel { display: inline-flex; position: relative; width: 350px; height: 1.1em; align-items: baseline; margin-left: 20px; }
         .ghost-item { position: absolute; left: 0; bottom: 0; opacity: 0; animation: ghost-fade 12s infinite; white-space: nowrap; }
         .ghost-item:nth-child(2) { animation-delay: 2.4s; }
@@ -52,15 +52,17 @@
         .preview-safe { background: #1a0000; border-left: 4px solid #ff4d4d; }
         .preview-chromatic { background: linear-gradient(135deg, #1e1b4b, #6366f1); border-left: 4px solid #a855f7; }
 
-        /* --- INTERACTIVE SECTIONS --- */
+        /* --- MANIFESTO INTERACTION --- */
         .manifesto-line { opacity: 0.3; transition: all 0.8s ease; transform: translateY(10px); cursor: crosshair; }
         .manifesto-line:hover { opacity: 1; transform: translateY(0); color: var(--picao-indigo); }
+
+        /* --- ARCHIVE GEOMETRY --- */
         .horizontal-archive { display: flex; gap: 3rem; overflow-x: auto; padding-bottom: 5rem; scrollbar-width: none; }
         .art-frame { overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
         .art-frame img { filter: grayscale(100%); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); width: 100%; height: 100%; object-fit: cover; }
         .art-frame:hover img { filter: grayscale(0%); transform: scale(1.08); }
 
-        /* --- OVERLAYS & LAB --- */
+        /* --- ACADEMY & LAB --- */
         #academy-overlay { position: fixed; inset: 0; background: rgba(5,5,5,0.99); z-index: 1000; display: none; overflow-y: auto; backdrop-filter: blur(40px); }
         #academy-overlay.active { display: block; }
         .floating-feature { position: absolute; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: rgba(255,255,255,0.15); animation: drift 12s infinite ease-in-out; }
@@ -86,8 +88,9 @@
             <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
         </div>
         <div class="flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em]">
-            <a href="#manifesto" class="hover:text-[#6366f1]">Manifesto</a>
-            <a href="#archive" class="hover:text-[#6366f1]">Archive</a>
+            <a href="#manifesto" class="hover:text-[#6366f1] transition-all">Manifesto</a>
+            <a href="#study" class="hover:text-[#6366f1] transition-all">Weekly Study</a>
+            <a href="#archive" class="hover:text-[#6366f1] transition-all">Archive</a>
             <button onclick="toggleAcademy()" class="bg-white text-black px-6 py-2 rounded-sm hover:bg-[#6366f1] hover:text-white transition-all">Academy</button>
         </div>
     </nav>
@@ -131,7 +134,7 @@
                 </div>
                 <div class="md:col-span-4 p-10 border border-white/5 bg-white/[0.02] backdrop-blur-xl">
                     <h4 class="font-bold text-xs uppercase tracking-widest mb-6 text-indigo-400 font-mono">Technical_Log</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light mb-6">Analyzing structural absence.</p>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light mb-6">Analyzing high-contrast structural absence. How light defines the space it cannot reach.</p>
                     <div class="flex gap-3"><span class="px-3 py-1 border border-white/10 text-[9px] font-bold uppercase text-slate-500">35mm</span><span class="px-3 py-1 border border-white/10 text-[9px] font-bold uppercase text-slate-500">B&W</span></div>
                 </div>
             </div>
@@ -143,19 +146,31 @@
         <div class="horizontal-archive px-8">
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4">The Still Life</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 001 // ISO 400</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4">The Still Life</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 001 // ISO 400 • F2.8</p>
+                </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4 text-white">Parisian Shadows</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 002 // ISO 800</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4 text-white">Parisian Shadows</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 002 // ISO 800 • F1.4</p>
+                </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4 text-white">Midnight Neon</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 003 // ISO 1600</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4 text-white">Midnight Neon</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 003 // ISO 1600 • F4</p>
+                </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[550px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&w=1000">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end"><h3 class="serif text-3xl italic mb-4 text-white">Atmospheric Form</h3><p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 004 // ISO 100</p></div>
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-12 flex flex-col justify-end">
+                    <h3 class="serif text-3xl italic mb-4 text-white">Atmospheric Form</h3>
+                    <p class="text-xs font-mono uppercase tracking-widest text-slate-400">Plate 004 // ISO 100 • F8</p>
+                </div>
             </div>
         </div>
     </section>
@@ -166,42 +181,45 @@
         <div class="max-w-5xl mx-auto px-8 text-center relative z-10">
             <img src="Picao-Logo.png" alt="Picao AI" class="h-12 mx-auto mb-12 invert opacity-40">
             <h2 class="serif text-5xl md:text-8xl italic mb-10">The Engine of <br><span class="text-[#6366f1]">Creation.</span></h2>
-            <p class="text-slate-400 text-xl font-light mb-12 max-w-xl mx-auto">Pictology HQ is powered by Picao AI.</p>
+            <p class="text-slate-400 text-xl font-light mb-12 max-w-xl mx-auto italic">Pictology HQ is powered by Picao AI.</p>
             <a href="https://picaoai.com" target="_blank" class="bg-[#6366f1] text-white px-12 py-5 rounded-sm font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">Enter Workspace</a>
         </div>
     </section>
 
     <div id="academy-overlay">
         <div class="max-w-5xl mx-auto px-8 py-40">
-            <button onclick="toggleAcademy()" class="fixed top-12 right-12 text-white text-4xl font-light hover:text-indigo-500">✕</button>
+            <button onclick="toggleAcademy()" class="fixed top-12 right-12 text-white text-4xl font-light hover:text-indigo-500 transition-all">✕</button>
             <h2 class="serif text-7xl italic text-white mb-20">The Curriculum.</h2>
             <div class="grid md:grid-cols-3 gap-12">
-                <div class="border-l border-white/10 pl-8"><h3 class="serif text-3xl italic mb-4 text-white">Phase_01</h3><p class="text-slate-400 font-light leading-relaxed">The Intentional Frame.</p></div>
-                <div class="border-l border-white/10 pl-8"><h3 class="serif text-3xl italic mb-4 text-white">Phase_02</h3><p class="text-slate-400 font-light leading-relaxed">Developing Narrative.</p></div>
-                <div class="border-l border-white/10 pl-8"><h3 class="serif text-3xl italic mb-4 text-white">Phase_03</h3><p class="text-slate-400 font-light leading-relaxed">The Archival Standard.</p></div>
+                <div class="border-l border-white/10 pl-8"><h3 class="serif text-3xl italic mb-4 text-white">Phase_01</h3><p class="text-slate-400 font-light leading-relaxed">The Intentional Frame. Deconstructing the algorithm.</p></div>
+                <div class="border-l border-white/10 pl-8"><h3 class="serif text-3xl italic mb-4 text-white">Phase_02</h3><p class="text-slate-400 font-light leading-relaxed">Developing Narrative. The study of light and shadow.</p></div>
+                <div class="border-l border-white/10 pl-8"><h3 class="serif text-3xl italic mb-4 text-white">Phase_03</h3><p class="text-slate-400 font-light leading-relaxed">The Archival Standard. Launching global digital archives.</p></div>
             </div>
         </div>
     </div>
 
     <footer class="py-40 bg-black/40 border-t border-white/5 px-8">
         <div class="max-w-7xl mx-auto">
-            <div class="border-b border-white/5 pb-16 mb-20">
-                <h4 class="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-500 mb-8">Join the Archive Ledger</h4>
-                <div class="flex flex-col md:flex-row gap-8 items-end">
-                    <input type="email" placeholder="Email Address" class="bg-transparent border-b border-white/10 py-3 text-white serif italic w-full max-w-sm focus:outline-none focus:border-[#6366f1] transition-all">
-                    <button class="text-[10px] font-black uppercase tracking-[0.3em] border-b border-[#6366f1] pb-2 hover:text-[#6366f1] transition-all">Register</button>
+            <div class="border-b border-white/5 pb-16 mb-20 flex flex-col md:flex-row justify-between items-end gap-10">
+                <div class="max-w-sm"><h4 class="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-500 mb-6">The Archive Ledger</h4><p class="text-slate-400 font-light">Join the weekly ledger of archival practitioners.</p></div>
+                <div class="flex gap-8 items-end w-full md:w-auto">
+                    <input type="email" placeholder="Email Address" class="bg-transparent border-b border-white/10 py-3 text-white serif italic w-full md:min-w-[300px] focus:outline-none focus:border-[#6366f1] transition-all">
+                    <button class="text-[10px] font-black uppercase tracking-[0.3em] border-b border-[#6366f1] pb-2 hover:text-white transition-all">Register</button>
                 </div>
             </div>
             <div class="grid md:grid-cols-4 gap-20 pb-20">
                 <div class="col-span-2"><img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-12 mb-10 invert opacity-20"><p class="serif text-3xl italic text-slate-500 max-w-sm">"Curation is the final act of resistance."</p></div>
-                <div><h5 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">HQ Hub</h5><ul class="space-y-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 italic"><li><a onclick="toggleAcademy()" class="hover:text-white cursor-pointer">Academy</a></li></ul></div>
+                <div><h5 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">HQ Hub</h5><ul class="space-y-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 italic"><li><a onclick="toggleAcademy()" class="hover:text-white cursor-pointer transition-colors">Academy</a></li><li><a href="#manifesto" class="hover:text-white">Manifesto</a></li></ul></div>
                 <div><h5 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Connection</h5>
-                    <div class="flex gap-6 items-center"><a href="https://www.linkedin.com/company/picaoai" target="_blank" class="hover:text-indigo-500 transition-all"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a><a href="https://twitter.com/picaoai" target="_blank" class="hover:text-indigo-500 transition-all"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a></div>
+                    <div class="flex gap-6 items-center">
+                        <a href="https://www.linkedin.com/company/picaoai" target="_blank" class="hover:text-indigo-500 transition-all"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="https://twitter.com/picaoai" target="_blank" class="hover:text-indigo-500 transition-all"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a>
+                    </div>
                 </div>
             </div>
-            <div class="border-t border-white/5 pt-8 flex justify-between text-[9px] font-bold uppercase tracking-[0.4em] text-slate-700">
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-[9px] font-bold uppercase tracking-[0.4em] text-slate-700 gap-6">
                 <p>© 2026 Pictology HQ — A Picao AI Property</p>
-                <div class="flex gap-10"><a href="#" class="hover:text-slate-400">Privacy Policy</a><a href="#" class="hover:text-slate-400">Terms of Service</a></div>
+                <div class="flex gap-10"><a href="#" class="hover:text-slate-400 transition-colors">Privacy Policy</a><a href="#" class="hover:text-slate-400 transition-colors">Terms of Service</a></div>
             </div>
         </div>
     </footer>
