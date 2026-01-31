@@ -20,11 +20,9 @@
         body.mode-safelight { background-color: #1a0000; color: #ff4d4d; }
         body.mode-chromatic { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #e0e7ff; }
         
-        /* Chromatic Specifics */
-        body.mode-chromatic .manifesto-line:hover { color: #a855f7; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
         body.mode-safelight img { filter: sepia(1) saturate(5) hue-rotate(-50deg) contrast(1.2) !important; }
 
-        /* --- ARTISTIC BACKGROUND --- */
+        /* --- ARTISTIC BACKGROUND & GRAIN --- */
         .bg-canvas {
             position: fixed; inset: 0; z-index: -1;
             background: 
@@ -45,15 +43,36 @@
             100% { transform: translate(0,0); }
         }
 
-        /* --- CREATIVE LOGO --- */
-        .phq-logo-wrap { position: relative; display: inline-block; padding: 5px; }
-        .phq-logo-wrap::before {
-            content: ''; position: absolute; inset: 0; border: 1px solid var(--picao-indigo);
-            border-radius: 2px; animation: logo-rotate 10s linear infinite; opacity: 0.3;
+        /* --- CREATIVE LOADER (REWRITTEN) --- */
+        #loader { 
+            position: fixed; inset: 0; background: #000; z-index: 2000; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            transition: opacity 1.5s ease;
         }
-        @keyframes logo-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .chemical-wash {
+            width: 250px; height: 1px; background: rgba(255,255,255,0.1);
+            position: relative; overflow: hidden; margin-top: 20px;
+        }
+        .wash-progress {
+            position: absolute; left: 0; top: 0; height: 100%; width: 0%;
+            background: #ff4d4d; box-shadow: 0 0 15px #ff4d4d;
+            animation: wash-flow 2.5s ease-in-out forwards;
+        }
+        @keyframes wash-flow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* --- TACTICAL SIDEBAR --- */
+        /* --- WORD CAROUSEL --- */
+        .word-carousel { display: inline-block; position: relative; vertical-align: bottom; overflow: hidden; height: 1.2em; }
+        .word-item { display: block; animation: word-cycle 10s infinite; }
+        @keyframes word-cycle {
+            0%, 15% { transform: translateY(0); }
+            20%, 35% { transform: translateY(-1.2em); }
+            40%, 55% { transform: translateY(-2.4em); }
+            60%, 75% { transform: translateY(-3.6em); }
+            80%, 95% { transform: translateY(-4.8em); }
+            100% { transform: translateY(0); }
+        }
+
+        /* --- SIDEBAR & HEADER AS PREVIOUS --- */
         .sidebar-modes {
             position: fixed; left: 1.5rem; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 1rem; z-index: 150;
@@ -62,43 +81,29 @@
             width: 10px; height: 10px; border-radius: 50%; border: 1px solid currentColor;
             transition: all 0.3s ease; position: relative;
         }
-        .mode-dot:hover { transform: scale(1.5); box-shadow: 0 0 10px var(--picao-indigo); }
-        .mode-dot::after {
-            content: attr(data-label); position: absolute; left: 20px; top: -5px;
-            font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
-            opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
-        }
-        .mode-dot:hover::after { opacity: 1; }
+        .mode-dot:hover::after { content: attr(data-label); position: absolute; left: 20px; top: -5px; font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; opacity: 1; white-space: nowrap; }
 
-        /* --- PICAO ENGINE ROOM --- */
-        .picao-engine-section {
-            background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.05), transparent);
-            position: relative; overflow: hidden;
-        }
-        .engine-mesh {
-            position: absolute; inset: 0; opacity: 0.1;
-            background-image: radial-gradient(var(--picao-indigo) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        /* --- RESTORED MANIFESTO --- */
         .manifesto-line { opacity: 0.3; transition: all 0.8s ease; transform: translateY(10px); cursor: crosshair; }
         .manifesto-line:hover { opacity: 1; transform: translateY(0); color: var(--picao-indigo); }
 
-        /* --- HORIZONTAL ARCHIVE --- */
         .horizontal-archive { display: flex; gap: 2rem; overflow-x: auto; padding-bottom: 3rem; scrollbar-width: none; }
-        .horizontal-archive::-webkit-scrollbar { display: none; }
-
         .art-frame { overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
         .art-frame img { filter: grayscale(100%); transition: all 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .art-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
-
-        #loader { position: fixed; inset: 0; background: #3d0000; z-index: 2000; display: flex; align-items: center; justify-content: center; transition: opacity 1s ease; }
     </style>
 </head>
 <body class="mode-dark antialiased">
 
-    <div id="loader"><p class="serif italic text-red-600 text-2xl animate-pulse">Developing Archive...</p></div>
+    <div id="loader">
+        <div class="mb-8 flex flex-col items-center">
+            <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-16 invert opacity-50 mb-4">
+            <p class="serif italic text-[#ff4d4d] text-sm tracking-[0.3em] uppercase">Exposing Plates...</p>
+        </div>
+        <div class="chemical-wash">
+            <div class="wash-progress"></div>
+        </div>
+    </div>
+
     <div class="bg-canvas"></div>
     <div class="grain"></div>
 
@@ -111,16 +116,13 @@
 
     <nav class="fixed w-full z-[100] border-b border-white/5 bg-black/40 backdrop-blur-xl px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <div class="phq-logo-wrap">
-                <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert">
-            </div>
+            <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert">
             <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
         </div>
         <div class="flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em]">
             <a href="#manifesto" class="hover:text-[#6366f1] transition-all">Manifesto</a>
             <a href="#study" class="hover:text-[#6366f1] transition-all">Weekly Study</a>
             <a href="#archive" class="hover:text-[#6366f1] transition-all">Archive</a>
-            <a href="#notes" class="hover:text-[#6366f1] transition-all">Notes</a>
             <button class="bg-white text-black px-4 py-2 rounded-sm hover:bg-[#6366f1] hover:text-white transition-all">Academy</button>
         </div>
     </nav>
@@ -129,7 +131,14 @@
         <div class="max-w-7xl mx-auto w-full">
             <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-500 block mb-6">NYC Digital Studio • Feb 01</span>
             <h1 class="serif text-7xl md:text-[10rem] leading-[0.8] tracking-tighter mb-12">
-                Real <span class="italic text-slate-500">Work.</span>
+                Real 
+                <span class="word-carousel italic text-slate-500">
+                    <span class="word-item">Work.</span>
+                    <span class="word-item">Light.</span>
+                    <span class="word-item">Craft.</span>
+                    <span class="word-item">Story.</span>
+                    <span class="word-item">Art.</span>
+                </span>
             </h1>
             <p class="text-xl md:text-3xl font-light text-slate-400 max-w-2xl leading-relaxed">
                 A photography platform for learning, sharing, and discovering real work.
@@ -153,7 +162,6 @@
         <div class="max-w-7xl mx-auto px-8">
             <div class="flex justify-between items-end mb-16 border-b border-white/10 pb-8">
                 <h2 class="serif text-5xl">Weekly Study <span class="text-indigo-500 italic text-2xl">v0.1</span></h2>
-                <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-500">Edition 001: The Geometry of Solitude</p>
             </div>
             <div class="grid md:grid-cols-12 gap-12 items-center">
                 <div class="md:col-span-8 art-frame aspect-[16/10] shadow-2xl">
@@ -161,7 +169,7 @@
                 </div>
                 <div class="md:col-span-4 p-8 border border-white/5 bg-white/[0.02] backdrop-blur-md">
                     <h4 class="font-bold text-xs uppercase tracking-widest mb-4 text-indigo-400 font-mono">Technical_Log</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">Analyzing high-contrast structural absence. How light defines the space it cannot reach.</p>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">Analyzing high-contrast structural absence.</p>
                 </div>
             </div>
         </div>
@@ -175,44 +183,32 @@
             <div class="art-frame min-w-[350px] md:min-w-[500px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80">
                 <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-8 flex flex-col justify-end">
-                    <span class="text-[9px] font-mono text-indigo-400 mb-2">PLATE_001 // TOKYO</span>
                     <h3 class="serif text-2xl italic">Midnight Neon</h3>
                 </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[500px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80">
                 <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-8 flex flex-col justify-end">
-                    <span class="text-[9px] font-mono text-indigo-400 mb-2">PLATE_002 // PARIS</span>
                     <h3 class="serif text-2xl italic">The Tonal Shadow</h3>
                 </div>
             </div>
             <div class="art-frame min-w-[350px] md:min-w-[500px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&w=800&q=80">
                 <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-8 flex flex-col justify-end">
-                    <span class="text-[9px] font-mono text-indigo-400 mb-2">PLATE_003 // HIGHLANDS</span>
                     <h3 class="serif text-2xl italic">Atmospheric Mist</h3>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="notes" class="picao-engine-section py-60">
-        <div class="engine-mesh"></div>
-        <div class="max-w-5xl mx-auto px-8 relative z-10 text-center">
-            <div class="flex justify-center mb-12">
-                <div class="p-4 rounded-2xl bg-white/5 border border-indigo-500/20 shadow-2xl shadow-indigo-500/10">
-                    <img src="Picao-Logo.png" alt="Picao AI" class="h-10 invert opacity-60">
-                </div>
-            </div>
+    <section class="py-60 border-t border-white/5 bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent">
+        <div class="max-w-5xl mx-auto px-8 text-center">
+            <img src="Picao-Logo.png" alt="Picao AI" class="h-10 mx-auto mb-8 invert opacity-40">
             <h2 class="serif text-5xl md:text-7xl italic mb-8">Creative speed <br> at archival standards.</h2>
             <p class="text-slate-400 text-xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">
-                Pictology HQ is powered by Picao AI. We use the all-in-one platform to ideate, create, and launch our studies in 24-hour cycles.
+                Pictology HQ is powered by Picao AI.
             </p>
-            <div class="grid md:grid-cols-3 gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                <div class="p-6 border border-white/5 bg-black/20">Ideate Fast</div>
-                <div class="p-6 border border-white/5 bg-black/20 text-indigo-400">Create Unified</div>
-                <div class="p-6 border border-white/5 bg-black/20">Launch Global</div>
-            </div>
+            <a href="https://picaoai.com" target="_blank" class="inline-block bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-[0.4em] hover:bg-[#6366f1] hover:text-white transition-all">Go to Picao AI</a>
         </div>
     </section>
 
@@ -225,15 +221,10 @@
             <div class="text-center font-light text-slate-400 italic">
                 <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Studio NYC</h4>
                 <p>Manhattan, New York</p>
-                <p>Build_260130_STABLE</p>
             </div>
             <div class="text-right">
-                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Engine Status</h4>
-                <p class="text-[10px] font-mono text-indigo-500 uppercase tracking-widest">PICAO_AI_CONNECTED</p>
+                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8 text-indigo-500">PICAO_AI_CONNECTED</h4>
             </div>
-        </div>
-        <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-[10px] uppercase tracking-[0.4em] text-slate-600 font-bold text-center">
-            © 2026 Pictology HQ — A Picao AI Property
         </div>
     </footer>
 
@@ -247,7 +238,7 @@
                 const loader = document.getElementById('loader');
                 loader.style.opacity = '0';
                 setTimeout(() => { loader.style.display = 'none'; }, 1000);
-            }, 1000);
+            }, 2500);
         });
     </script>
 </body>
