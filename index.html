@@ -11,16 +11,20 @@
     <style>
         :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; }
         
-        body { font-family: 'Inter', sans-serif; transition: background 0.8s ease, color 0.8s ease; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; transition: background 1.2s ease, color 1.2s ease; overflow-x: hidden; }
         .serif { font-family: 'Lora', serif; }
 
-        /* --- THEME ENGINE --- */
+        /* --- THEME MODES --- */
         body.mode-dark { background-color: #050505; color: #f8fafc; }
         body.mode-light { background-color: #fdfdfd; color: #0f172a; }
         body.mode-safelight { background-color: #1a0000; color: #ff4d4d; }
-        body.mode-safelight img { filter: sepia(1) saturate(5) hue-rotate(-50deg) !important; }
+        body.mode-chromatic { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #e0e7ff; }
+        
+        /* Chromatic Specifics */
+        body.mode-chromatic .manifesto-line:hover { color: #a855f7; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
+        body.mode-safelight img { filter: sepia(1) saturate(5) hue-rotate(-50deg) contrast(1.2) !important; }
 
-        /* --- RESTORED BACKGROUND --- */
+        /* --- ARTISTIC BACKGROUND --- */
         .bg-canvas {
             position: fixed; inset: 0; z-index: -1;
             background: 
@@ -41,69 +45,83 @@
             100% { transform: translate(0,0); }
         }
 
-        /* --- RESTORED MANIFESTO WORDS --- */
+        /* --- CREATIVE LOGO --- */
+        .phq-logo-wrap { position: relative; display: inline-block; padding: 5px; }
+        .phq-logo-wrap::before {
+            content: ''; position: absolute; inset: 0; border: 1px solid var(--picao-indigo);
+            border-radius: 2px; animation: logo-rotate 10s linear infinite; opacity: 0.3;
+        }
+        @keyframes logo-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- TACTICAL SIDEBAR --- */
+        .sidebar-modes {
+            position: fixed; left: 1.5rem; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 1rem; z-index: 150;
+        }
+        .mode-dot {
+            width: 10px; height: 10px; border-radius: 50%; border: 1px solid currentColor;
+            transition: all 0.3s ease; position: relative;
+        }
+        .mode-dot:hover { transform: scale(1.5); box-shadow: 0 0 10px var(--picao-indigo); }
+        .mode-dot::after {
+            content: attr(data-label); position: absolute; left: 20px; top: -5px;
+            font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+            opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
+        }
+        .mode-dot:hover::after { opacity: 1; }
+
+        /* --- PICAO ENGINE ROOM --- */
+        .picao-engine-section {
+            background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.05), transparent);
+            position: relative; overflow: hidden;
+        }
+        .engine-mesh {
+            position: absolute; inset: 0; opacity: 0.1;
+            background-image: radial-gradient(var(--picao-indigo) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* --- RESTORED MANIFESTO --- */
         .manifesto-line { opacity: 0.3; transition: all 0.8s ease; transform: translateY(10px); cursor: crosshair; }
         .manifesto-line:hover { opacity: 1; transform: translateY(0); color: var(--picao-indigo); }
 
-        /* --- RESTORED COLOR REVEAL --- */
-        .art-frame { overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
-        .art-frame img { 
-            filter: grayscale(100%) contrast(1.1);
-            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .art-frame:hover img { filter: grayscale(0%) contrast(1); transform: scale(1.05); }
-
-        /* --- SEAMLESS HORIZONTAL SCROLL --- */
-        .horizontal-archive {
-            display: flex; gap: 2rem; overflow-x: auto; padding-bottom: 3rem;
-            scrollbar-width: none; -ms-overflow-style: none;
-        }
+        /* --- HORIZONTAL ARCHIVE --- */
+        .horizontal-archive { display: flex; gap: 2rem; overflow-x: auto; padding-bottom: 3rem; scrollbar-width: none; }
         .horizontal-archive::-webkit-scrollbar { display: none; }
 
-        /* --- LOGO PULSE --- */
-        .logo-status { position: relative; }
-        .logo-status::after {
-            content: ''; position: absolute; top: -2px; right: -2px;
-            width: 8px; height: 8px; background: var(--picao-indigo);
-            border-radius: 50%; box-shadow: 0 0 10px var(--picao-indigo);
-            animation: status-pulse 2s infinite;
-        }
-        @keyframes status-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .art-frame { overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .art-frame img { filter: grayscale(100%); transition: all 1s cubic-bezier(0.19, 1, 0.22, 1); }
+        .art-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
-        /* --- LOADER --- */
-        #darkroom-loader {
-            position: fixed; inset: 0; background: #3d0000;
-            z-index: 2000; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            transition: opacity 1.5s ease;
-        }
+        #loader { position: fixed; inset: 0; background: #3d0000; z-index: 2000; display: flex; align-items: center; justify-content: center; transition: opacity 1s ease; }
     </style>
 </head>
 <body class="mode-dark antialiased">
 
-    <div id="darkroom-loader">
-        <p class="serif italic text-red-600 text-2xl animate-pulse">Developing Archive...</p>
-    </div>
-
+    <div id="loader"><p class="serif italic text-red-600 text-2xl animate-pulse">Developing Archive...</p></div>
     <div class="bg-canvas"></div>
     <div class="grain"></div>
 
+    <div class="sidebar-modes">
+        <button onclick="setTheme('dark')" class="mode-dot text-slate-500" data-label="Darkroom"></button>
+        <button onclick="setTheme('light')" class="mode-dot text-slate-300" data-label="Gallery"></button>
+        <button onclick="setTheme('safelight')" class="mode-dot text-red-600" data-label="Safelight"></button>
+        <button onclick="setTheme('chromatic')" class="mode-dot text-indigo-500" data-label="Chromatic"></button>
+    </div>
+
     <nav class="fixed w-full z-[100] border-b border-white/5 bg-black/40 backdrop-blur-xl px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <div class="logo-status">
+            <div class="phq-logo-wrap">
                 <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert">
             </div>
             <span class="font-black text-xl tracking-tighter uppercase">Pictology<span class="text-[#6366f1]">HQ</span></span>
         </div>
-        
-        <div class="flex items-center gap-6">
-            <div class="flex bg-white/5 p-1 rounded-full border border-white/10 text-[9px] uppercase font-bold">
-                <button onclick="setTheme('dark')" class="px-3 py-1 hover:text-white transition-colors">Dark</button>
-                <button onclick="setTheme('light')" class="px-3 py-1 hover:text-white transition-colors">Light</button>
-                <button onclick="setTheme('safelight')" class="px-3 py-1 text-red-800 hover:text-red-500 transition-colors">Safelight</button>
-            </div>
-            <a href="#archive" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white">Archive</a>
-            <button class="bg-white text-black px-4 py-2 rounded-sm text-[10px] font-bold uppercase hover:bg-[#6366f1] hover:text-white transition-all">Academy</button>
+        <div class="flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em]">
+            <a href="#manifesto" class="hover:text-[#6366f1] transition-all">Manifesto</a>
+            <a href="#study" class="hover:text-[#6366f1] transition-all">Weekly Study</a>
+            <a href="#archive" class="hover:text-[#6366f1] transition-all">Archive</a>
+            <a href="#notes" class="hover:text-[#6366f1] transition-all">Notes</a>
+            <button class="bg-white text-black px-4 py-2 rounded-sm hover:bg-[#6366f1] hover:text-white transition-all">Academy</button>
         </div>
     </nav>
 
@@ -114,7 +132,7 @@
                 Real <span class="italic text-slate-500">Work.</span>
             </h1>
             <p class="text-xl md:text-3xl font-light text-slate-400 max-w-2xl leading-relaxed">
-                Photography for the craft, not the algorithm. Built with the Picao AI platform.
+                A photography platform for learning, sharing, and discovering real work.
             </p>
         </div>
     </header>
@@ -131,7 +149,7 @@
         </div>
     </section>
 
-    <section id="study" class="py-40 bg-white/[0.01]">
+    <section id="study" class="py-40">
         <div class="max-w-7xl mx-auto px-8">
             <div class="flex justify-between items-end mb-16 border-b border-white/10 pb-8">
                 <h2 class="serif text-5xl">Weekly Study <span class="text-indigo-500 italic text-2xl">v0.1</span></h2>
@@ -141,11 +159,9 @@
                 <div class="md:col-span-8 art-frame aspect-[16/10] shadow-2xl">
                     <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1600&q=80">
                 </div>
-                <div class="md:col-span-4 space-y-8">
-                    <div class="p-8 border border-white/5 bg-white/[0.02] backdrop-blur-md">
-                        <h4 class="font-bold text-xs uppercase tracking-widest mb-4 text-indigo-400 font-mono">Technical_Log</h4>
-                        <p class="text-sm text-slate-400 leading-relaxed font-light">Analyzing high-contrast structural absence. How light defines the space it cannot reach.</p>
-                    </div>
+                <div class="md:col-span-4 p-8 border border-white/5 bg-white/[0.02] backdrop-blur-md">
+                    <h4 class="font-bold text-xs uppercase tracking-widest mb-4 text-indigo-400 font-mono">Technical_Log</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">Analyzing high-contrast structural absence. How light defines the space it cannot reach.</p>
                 </div>
             </div>
         </div>
@@ -155,7 +171,6 @@
         <div class="max-w-7xl mx-auto px-8 mb-20">
             <h2 class="serif text-7xl">Archive<span class="text-indigo-500">.</span></h2>
         </div>
-        
         <div class="horizontal-archive px-8">
             <div class="art-frame min-w-[350px] md:min-w-[500px] aspect-[4/5] relative group">
                 <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80">
@@ -178,12 +193,25 @@
                     <h3 class="serif text-2xl italic">Atmospheric Mist</h3>
                 </div>
             </div>
-            <div class="art-frame min-w-[350px] md:min-w-[500px] aspect-[4/5] relative group">
-                <img src="https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800&q=80">
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all p-8 flex flex-col justify-end">
-                    <span class="text-[9px] font-mono text-indigo-400 mb-2">PLATE_004 // ARCHITECTURE</span>
-                    <h3 class="serif text-2xl italic">Brutalist Form</h3>
+        </div>
+    </section>
+
+    <section id="notes" class="picao-engine-section py-60">
+        <div class="engine-mesh"></div>
+        <div class="max-w-5xl mx-auto px-8 relative z-10 text-center">
+            <div class="flex justify-center mb-12">
+                <div class="p-4 rounded-2xl bg-white/5 border border-indigo-500/20 shadow-2xl shadow-indigo-500/10">
+                    <img src="Picao-Logo.png" alt="Picao AI" class="h-10 invert opacity-60">
                 </div>
+            </div>
+            <h2 class="serif text-5xl md:text-7xl italic mb-8">Creative speed <br> at archival standards.</h2>
+            <p class="text-slate-400 text-xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">
+                Pictology HQ is powered by Picao AI. We use the all-in-one platform to ideate, create, and launch our studies in 24-hour cycles.
+            </p>
+            <div class="grid md:grid-cols-3 gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                <div class="p-6 border border-white/5 bg-black/20">Ideate Fast</div>
+                <div class="p-6 border border-white/5 bg-black/20 text-indigo-400">Create Unified</div>
+                <div class="p-6 border border-white/5 bg-black/20">Launch Global</div>
             </div>
         </div>
     </section>
@@ -194,18 +222,14 @@
                 <img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 mb-8 invert opacity-30">
                 <p class="serif italic text-slate-500">"The algorithm commodifies the eye. We choose to see."</p>
             </div>
-            <div>
-                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8 text-center">Location</h4>
-                <p class="text-sm font-light text-slate-400 italic text-center">
-                    Pictology HQ Digital Archive<br>
-                    Manhattan, New York<br>
-                    Est. 2026
-                </p>
+            <div class="text-center font-light text-slate-400 italic">
+                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Studio NYC</h4>
+                <p>Manhattan, New York</p>
+                <p>Build_260130_STABLE</p>
             </div>
             <div class="text-right">
-                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">System Status</h4>
-                <p class="text-[10px] font-mono text-indigo-500 uppercase tracking-widest">Build_260130_STABLE</p>
-                <p class="text-[9px] text-slate-600 mt-2 uppercase tracking-widest">Powered by Picao AI</p>
+                <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">Engine Status</h4>
+                <p class="text-[10px] font-mono text-indigo-500 uppercase tracking-widest">PICAO_AI_CONNECTED</p>
             </div>
         </div>
         <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-[10px] uppercase tracking-[0.4em] text-slate-600 font-bold text-center">
@@ -215,15 +239,15 @@
 
     <script>
         function setTheme(mode) {
-            document.body.classList.remove('mode-dark', 'mode-light', 'mode-safelight');
+            document.body.classList.remove('mode-dark', 'mode-light', 'mode-safelight', 'mode-chromatic');
             document.body.classList.add('mode-' + mode);
         }
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const loader = document.getElementById('darkroom-loader');
+                const loader = document.getElementById('loader');
                 loader.style.opacity = '0';
-                setTimeout(() => { loader.style.display = 'none'; }, 1500);
-            }, 2000);
+                setTimeout(() => { loader.style.display = 'none'; }, 1000);
+            }, 1000);
         });
     </script>
 </body>
