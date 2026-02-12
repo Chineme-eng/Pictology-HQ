@@ -133,6 +133,14 @@
         <div class="sector-dot-wrap"><button onclick="setTheme('chromatic')" class="sector-dot"></button><div class="mode-preview preview-chromatic"><span>Chromatic</span></div></div>
     </div>
 
+    <div id="ledger-toast" class="fixed bottom-10 right-10 bg-[#6366f1] text-white px-8 py-5 rounded-lg flex items-center gap-5 transform translate-y-32 opacity-0 transition-all duration-700 z-[200] shadow-2xl border border-white/20 backdrop-blur-md">
+        <div class="bg-white/20 p-2 rounded-full"><i data-lucide="check" class="w-4 h-4"></i></div>
+        <div>
+            <p class="text-[10px] font-black uppercase tracking-widest mb-1">Access Granted</p>
+            <p class="text-xs serif italic opacity-90">Welcome to the Archive Ledger.</p>
+        </div>
+    </div>
+
     <nav class="fixed w-full z-[100] border-b border-white/[0.05] bg-inherit/80 backdrop-blur-xl px-8 py-6 flex justify-between items-center transition-colors duration-700">
         <div class="flex items-center gap-6 group cursor-pointer">
             <div class="logo-ring group-hover:scale-110 transition duration-500"><img src="Pictology HQ Logo (2).png" alt="PHQ" class="h-10 invert opacity-90"></div>
@@ -325,8 +333,10 @@
                     <p class="opacity-60 font-light">Join the weekly ledger of archival practitioners. Zero spam, pure craft.</p>
                 </div>
                 <div class="flex gap-8 items-end w-full md:w-auto relative">
-                    <input type="email" placeholder="Email Address" class="bg-transparent border-b border-white/20 py-3 text-white serif italic w-full md:min-w-[300px] focus:outline-none focus:border-indigo-500 transition-all placeholder:text-white/20">
-                    <button class="absolute right-0 bottom-4 text-[10px] font-black uppercase tracking-[0.3em] hover:text-indigo-500 transition-all"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                    <input id="ledger-email" type="email" placeholder="Email Address" class="bg-transparent border-b border-white/20 py-3 text-white serif italic w-full md:min-w-[300px] focus:outline-none focus:border-indigo-500 transition-all placeholder:text-white/20">
+                    <button id="ledger-btn" onclick="joinLedger()" class="absolute right-0 bottom-4 text-[10px] font-black uppercase tracking-[0.3em] hover:text-indigo-500 transition-all flex items-center gap-2">
+                        <span>Register</span> <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </button>
                 </div>
             </div>
             <div class="grid md:grid-cols-4 gap-20 pb-20 border-b border-white/[0.05]">
@@ -409,6 +419,46 @@
                 title.innerText = "Terms of Craft.";
                 content.innerHTML = "<p>Images are for study and artistic inspiration. Commercial reproduction without licensing is prohibited.</p><p>By entering this workspace, you agree to respect the slow nature of the work.</p>";
             }
+        }
+
+        // REGISTRATION SIMULATION
+        function joinLedger() {
+            const input = document.getElementById('ledger-email');
+            const btn = document.getElementById('ledger-btn');
+            const toast = document.getElementById('ledger-toast');
+
+            if(input.value.trim() === "") {
+                input.focus();
+                input.classList.add('border-red-500');
+                setTimeout(() => input.classList.remove('border-red-500'), 500);
+                return; 
+            }
+
+            // Loading State
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span>Encrypting...</span> <i data-lucide="lock" class="w-3 h-3 animate-pulse"></i>';
+            lucide.createIcons();
+            btn.style.opacity = "0.7";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Success State
+                btn.innerHTML = '<span>Registered</span> <i data-lucide="check" class="w-3 h-3"></i>';
+                lucide.createIcons();
+                input.value = "";
+                
+                // Show Toast
+                toast.classList.remove('translate-y-32', 'opacity-0');
+                
+                // Hide Toast after 4s
+                setTimeout(() => {
+                    toast.classList.add('translate-y-32', 'opacity-0');
+                    btn.innerHTML = originalHTML;
+                    lucide.createIcons();
+                    btn.style.opacity = "1";
+                    btn.disabled = false;
+                }, 4000);
+            }, 1800);
         }
     </script>
 </body>
