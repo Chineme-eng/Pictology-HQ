@@ -10,6 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <script>
+        function setTheme(theme) {
+    // Set the data attribute on the <html> element
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Update active dot visual
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.currentTarget.classList.add('active');
+
+    // Optional: Update specific elements if they have hardcoded colors
+    // (e.g., borders or lines you want to change color with the theme)
+    document.querySelectorAll('.border-black').forEach(el => {
+        el.style.borderColor = 'var(--text-color)';
+    });
+}
         tailwind.config = {
             theme: {
                 extend: {
@@ -41,6 +57,58 @@
     </script>
 
     <style>
+        body {
+    transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out;
+}
+        /* Mode Variables */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --accent-color: #666666;
+}
+
+[data-theme="red-room"] {
+    --bg-color: #1a0505; /* Deep deep red-black */
+    --text-color: #ff3333; /* Classic safelight red */
+    --accent-color: #800000;
+    filter: contrast(1.1) brightness(0.9);
+}
+
+[data-theme="onyx"] {
+    --bg-color: #0a0a0a;
+    --text-color: #e5e5e5;
+    --accent-color: #444444;
+}
+
+/* Apply variables to the body */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Minimalist Toggle Style */
+.theme-toggle-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 100;
+}
+
+.mode-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: transparent;
+}
+
+.mode-btn:hover { transform: scale(1.2); }
+.mode-btn.active { background: var(--text-color); }
         :root { 
             --picao-indigo: #4F46E5; 
             --picao-purple: #9333EA; 
@@ -494,5 +562,10 @@
             }, 1800);
         }
     </script>
+<div class="theme-toggle-container">
+    <button onclick="setTheme('light')" class="mode-btn active" title="Gallery Light"></button>
+    <button onclick="setTheme('red-room')" class="mode-btn" title="Red Room" style="border-color: #ff3333;"></button>
+    <button onclick="setTheme('onyx')" class="mode-btn" title="Onyx Dark" style="border-color: #444444;"></button>
+</div>
 </body>
 </html>
