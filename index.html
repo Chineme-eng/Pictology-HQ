@@ -1,246 +1,305 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pictology HQ | The Craft of Photography</title>
-
-<link rel="icon" type="image/png" href="Pictology HQ Logo (2).png">
-
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Lucide -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<script>
-tailwind.config = {
-theme: {
-extend: {
-colors: {
-picao: {
-indigo: '#4F46E5',
-purple: '#9333EA',
-cream: '#FDFBF7',
-slate: '#0F172A'
-}
-},
-boxShadow: {
-soft: '0 4px 20px -2px rgba(0,0,0,0.05)',
-glow: '0 0 40px -10px rgba(79,70,229,0.15)'
-},
-animation: {
-shine: 'shine 1.5s ease-in-out infinite',
-drift: 'drift 15s infinite ease-in-out',
-float: 'float 8s ease-in-out infinite'
-},
-keyframes: {
-shine: {'0%':{transform:'translateX(-100%)'},'100%':{transform:'translateX(100%)'}},
-drift: {'0%,100%':{transform:'translate(0,0)'},'50%':{transform:'translate(15px,-15px)'}},
-float: {'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-15px)'}}
-}
-}
-}
-}
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pictology HQ | The Craft of Photography</title>
+    <link rel="icon" type="image/png" href="Pictology HQ Logo (2).png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        picao: { 
+                            indigo: '#4F46E5', 
+                            purple: '#9333EA',
+                            cream: '#FDFBF7',
+                            slate: '#0F172A',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 40px -10px rgba(79, 70, 229, 0.15)',
+                    },
+                    animation: {
+                        'shine': 'shine 1.5s ease-in-out infinite',
+                        'drift': 'drift 15s infinite ease-in-out',
+                        'float': 'float 8s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(100%)' } },
+                        drift: { '0%, 100%': { transform: 'translate(0, 0)' }, '50%': { transform: 'translate(15px, -15px)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-15px)' } }
+                    }
+                }
+            }
+        }
+    </script>
 
 <style>
-:root{
---picao-indigo:#4F46E5;
---bg-color:#FDFBF7;
---text-main:#0F172A;
---text-muted:#64748B;
-}
+    :root { 
+        --picao-indigo: #4F46E5; 
+        --picao-purple: #9333EA; 
+        --bg-color: #FDFBF7;
+        --text-main: #0F172A;
+        --text-muted: #64748B;
+    }
+    
+    body { 
+        font-family: 'Inter', sans-serif; 
+        background-color: var(--bg-color); 
+        color: var(--text-main); 
+        transition: background 0.5s ease, color 0.5s ease; 
+        overflow-x: hidden; 
+        -webkit-font-smoothing: antialiased; 
+        position: relative;
+    }
 
-body{
-font-family:'Inter',sans-serif;
-background:var(--bg-color);
-color:var(--text-main);
-overflow-x:hidden;
--webkit-font-smoothing:antialiased;
-position:relative;
-}
+    body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image: 
+            linear-gradient(rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+        background-size: 40px 40px;
+        -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    }
 
-body::before{
-content:"";
-position:absolute;
-inset:0;
-z-index:-1;
-pointer-events:none;
-background-image:
-linear-gradient(rgba(15,23,42,0.02) 1px,transparent 1px),
-linear-gradient(90deg,rgba(15,23,42,0.02) 1px,transparent 1px);
-background-size:40px 40px;
-mask-image:linear-gradient(to bottom,black 70%,transparent 100%);
-}
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.1); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.3); }
+    
+    ::selection { background: rgba(79, 70, 229, 0.1); color: #4F46E5; }
+    
+    .serif { font-family: 'Lora', serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
 
-.serif{font-family:'Lora',serif;}
-.mono{font-family:'JetBrains Mono',monospace;}
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
 
-.reveal{opacity:0;transform:translateY(30px);transition:all 1s cubic-bezier(0.16,1,0.3,1);}
-.reveal.active{opacity:1;transform:translateY(0);}
+    .spotlight-card { 
+        position: relative; 
+        overflow: hidden; 
+        border: 1px solid rgba(0,0,0,0.05); 
+        background: #FFFFFF;
+        transition: all 0.3s; 
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+    .spotlight-card::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(79, 70, 229, 0.05), transparent 40%);
+        opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1;
+    }
+    .spotlight-card:hover::before { opacity: 1; }
+    .spotlight-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: rgba(79, 70, 229, 0.2); }
 
-.spotlight-card{
-position:relative;
-overflow:hidden;
-border:1px solid rgba(0,0,0,0.05);
-background:#fff;
-transition:all .3s;
-}
+    .ghost-carousel { display: inline-flex; position: relative; width: 380px; height: 1.1em; align-items: baseline; margin-left: 20px; }
+    .ghost-item { position: absolute; left: 0; bottom: 0; opacity: 0; animation: ghost-fade 12s infinite; white-space: nowrap; font-style: italic; color: #4F46E5; }
+    .ghost-item:nth-child(2) { animation-delay: 2.4s; }
+    .ghost-item:nth-child(3) { animation-delay: 4.8s; }
+    .ghost-item:nth-child(4) { animation-delay: 7.2s; }
+    .ghost-item:nth-child(5) { animation-delay: 9.6s; }
+    @keyframes ghost-fade { 0%, 5% { opacity: 0; transform: translateY(15px); filter: blur(8px); } 10%, 20% { opacity: 1; transform: translateY(0); filter: blur(0px); } 25%, 30% { opacity: 0; transform: translateY(-15px); filter: blur(8px); } 100% { opacity: 0; } }
 
-.spotlight-card::before{
-content:'';
-position:absolute;
-inset:0;
-background:radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),rgba(79,70,229,0.05),transparent 40%);
-opacity:0;
-transition:opacity .5s;
-pointer-events:none;
-}
+    .horizontal-archive { display: flex; gap: 3rem; overflow-x: auto; padding-bottom: 5rem; scrollbar-width: none; cursor: grab; padding-top: 2rem; }
+    .horizontal-archive:active { cursor: grabbing; }
 
-.spotlight-card:hover::before{opacity:1;}
-.spotlight-card:hover{transform:translateY(-3px);}
+    .art-frame { 
+        overflow: hidden; 
+        position: relative; 
+        background: white;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 8px solid white;
+    }
+    .art-frame img { filter: grayscale(100%); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); width: 100%; height: 100%; object-fit: cover; }
+    .art-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
+    .art-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(125deg, rgba(255,255,255,0.4) 0%, transparent 40%, transparent 100%); transform: translateX(-100%); transition: 0.6s; z-index: 10; pointer-events: none; mix-blend-mode: overlay; }
+    .art-frame:hover::after { transform: translateX(100%); transition: 0.8s ease-in-out; }
 
-.ghost-carousel{display:inline-flex;position:relative;width:380px;height:1.1em;align-items:baseline;margin-left:20px;}
-.ghost-item{position:absolute;left:0;bottom:0;opacity:0;animation:ghost-fade 12s infinite;white-space:nowrap;font-style:italic;color:#4F46E5;}
-.ghost-item:nth-child(2){animation-delay:2.4s;}
-.ghost-item:nth-child(3){animation-delay:4.8s;}
-.ghost-item:nth-child(4){animation-delay:7.2s;}
-.ghost-item:nth-child(5){animation-delay:9.6s;}
+    .btn-shine { position: relative; overflow: hidden; }
+    .btn-shine::after { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent); transition: 0.5s; }
+    .btn-shine:hover::after { left: 100%; transition: 0.5s; }
 
-@keyframes ghost-fade{
-0%,5%{opacity:0;transform:translateY(15px);filter:blur(8px);}
-10%,20%{opacity:1;transform:translateY(0);filter:blur(0);}
-25%,30%{opacity:0;transform:translateY(-15px);filter:blur(8px);}
-100%{opacity:0;}
-}
+    #academy-overlay, #legal-overlay { 
+        position: fixed; inset: 0; z-index: 1000; display: none; overflow-y: auto; 
+        backdrop-filter: blur(20px); background: rgba(253, 251, 247, 0.95); transition: opacity 0.3s; 
+    }
+    #academy-overlay.active, #legal-overlay.active { display: block; animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-.horizontal-archive{display:flex;gap:3rem;overflow-x:auto;padding-bottom:5rem;scrollbar-width:none;cursor:grab;}
-.horizontal-archive::-webkit-scrollbar{display:none;}
+    .floating-feature { position: absolute; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; opacity: 0.3; animation: drift 12s infinite ease-in-out; color: #94A3B8; }
+    .logo-ring { position: relative; display: flex; align-items: center; justify-content: center; color: #4F46E5; }
+    .logo-ring::before { content: ''; position: absolute; inset: -5px; border: 1px solid currentColor; border-radius: 4px; animation: spin 20s linear infinite; opacity: 0.3; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.art-frame{overflow:hidden;position:relative;background:#fff;border:8px solid #fff;}
-.art-frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:1.5s;}
-.art-frame:hover img{filter:grayscale(0);transform:scale(1.05);}
-
-#academy-overlay,#legal-overlay{
-position:fixed;inset:0;z-index:1000;display:none;overflow-y:auto;
-backdrop-filter:blur(20px);
-background:rgba(253,251,247,0.95);
-}
-
-#academy-overlay.active,#legal-overlay.active{display:block;}
-
-.glass-panel{background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.04);}
+    .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 8px 32px rgba(0,0,0,0.04); }
 </style>
 </head>
-
 <body class="bg-[#FDFBF7] antialiased">
+<!-- HEADER AND HERO -->
+<header class="py-12 text-center">
+    <h1 class="text-5xl font-bold serif reveal">Pictology HQ</h1>
+    <p class="mt-4 text-xl text-slate-600 reveal">The Craft of Photography</p>
+</header>
 
-<!-- ============================= -->
-<!-- YOUR ENTIRE ORIGINAL BODY CONTENT REMAINS UNCHANGED -->
-<!-- (All sections preserved exactly as sent in Part 1) -->
-<!-- ============================= -->
+<!-- MANIFESTO SECTION -->
+<section class="max-w-4xl mx-auto px-4 py-12 reveal">
+    <p class="serif text-lg leading-relaxed">
+        Pictology HQ is dedicated to the slow study of light, composition, and the archival integrity of visual craft.
+        Our weekly studies and layered experiments aim to inspire a new generation of image archivists and storytellers.
+    </p>
+</section>
 
-<!-- IMPORTANT -->
-<!-- Because your body content is extremely long and already correct,
-     nothing needed merging beyond fixes above.
-     All animations, overlays, and ledger logic remain intact. -->
+<!-- SPOTLIGHT CARDS -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 py-12">
+    <div class="spotlight-card p-6 rounded-lg reveal">
+        <h2 class="text-xl font-semibold mb-2">Weekly Study #1</h2>
+        <p class="text-slate-600">Exploring chiaroscuro and natural light in urban settings.</p>
+    </div>
+    <div class="spotlight-card p-6 rounded-lg reveal">
+        <h2 class="text-xl font-semibold mb-2">Weekly Study #2</h2>
+        <p class="text-slate-600">Macro studies of texture and form in everyday objects.</p>
+    </div>
+    <div class="spotlight-card p-6 rounded-lg reveal">
+        <h2 class="text-xl font-semibold mb-2">Weekly Study #3</h2>
+        <p class="text-slate-600">Color theory applied to motion photography.</p>
+    </div>
+</section>
+
+<!-- HORIZONTAL ARCHIVE -->
+<section class="horizontal-archive reveal">
+    <div class="art-frame w-64 h-64"><img src="archive1.jpg" alt="Archive 1"></div>
+    <div class="art-frame w-64 h-64"><img src="archive2.jpg" alt="Archive 2"></div>
+    <div class="art-frame w-64 h-64"><img src="archive3.jpg" alt="Archive 3"></div>
+    <div class="art-frame w-64 h-64"><img src="archive4.jpg" alt="Archive 4"></div>
+</section>
+
+<!-- PICAO LAB -->
+<section class="max-w-4xl mx-auto px-4 py-12 reveal">
+    <h2 class="text-2xl font-bold mb-4">Picao Lab</h2>
+    <p class="text-slate-600 mb-6">Join our Ledger for archival updates via Picao AI.</p>
+    <div class="flex gap-2">
+        <input id="ledger-email" type="email" placeholder="you@example.com" class="border p-2 rounded w-full">
+        <button id="ledger-btn" class="btn-shine px-4 py-2 bg-picao-indigo text-white rounded" onclick="joinLedger()">Join Ledger</button>
+    </div>
+    <div id="ledger-toast" class="fixed bottom-4 right-4 bg-picao-indigo text-white px-4 py-2 rounded transform translate-y-32 opacity-0 transition-all">Successfully Registered!</div>
+</section>
+
+<!-- OVERLAYS -->
+<div id="academy-overlay">
+    <button class="absolute top-4 right-4 p-2" onclick="toggleAcademy()">✕</button>
+    <div class="max-w-3xl mx-auto mt-12 p-6 bg-white rounded shadow-lg">Academy Content Here...</div>
+</div>
+
+<div id="legal-overlay">
+    <button class="absolute top-4 right-4 p-2" onclick="toggleLegal()">✕</button>
+    <div class="max-w-3xl mx-auto mt-12 p-6 bg-white rounded shadow-lg">
+        <h2 id="legal-title" class="text-xl font-bold mb-4"></h2>
+        <div id="legal-content" class="text-slate-600"></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="py-12 text-center text-slate-500">
+    &copy; 2026 Pictology HQ. <button class="underline" onclick="toggleLegal('privacy')">Privacy</button> | <button class="underline" onclick="toggleLegal('terms')">Terms</button>
+</footer>
 
 <script>
-lucide.createIcons();
+    lucide.createIcons();
 
-/* Spotlight */
-const cards=document.querySelectorAll(".spotlight-card");
-document.addEventListener("mousemove",(e)=>{
-cards.forEach((card)=>{
-const rect=card.getBoundingClientRect();
-card.style.setProperty("--mouse-x",`${e.clientX-rect.left}px`);
-card.style.setProperty("--mouse-y",`${e.clientY-rect.top}px`);
-});
-});
+    const cards = document.querySelectorAll(".spotlight-card");
+    document.addEventListener("mousemove", (e) => {
+        cards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty("--mouse-x", `${x}px`);
+            card.style.setProperty("--mouse-y", `${y}px`);
+        });
+    });
 
-/* Scroll Reveal */
-const revealElements=document.querySelectorAll('.reveal');
-const revealObserver=new IntersectionObserver((entries)=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('active');
-revealObserver.unobserve(entry.target);
-}
-});
-},{threshold:0.1});
-revealElements.forEach(el=>revealObserver.observe(el));
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    revealElements.forEach(el => revealObserver.observe(el));
 
-/* Academy Toggle */
-function toggleAcademy(){
-const overlay=document.getElementById('academy-overlay');
-overlay.classList.toggle('active');
-document.body.style.overflow=overlay.classList.contains('active')?'hidden':'auto';
-}
+    function toggleAcademy() { 
+        const overlay = document.getElementById('academy-overlay');
+        overlay.classList.toggle('active'); 
+        document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : 'auto';
+    }
+    
+    function toggleLegal(type) {
+        const overlay = document.getElementById('legal-overlay');
+        const title = document.getElementById('legal-title');
+        const content = document.getElementById('legal-content');
+        
+        if(!type) { 
+            overlay.classList.remove('active'); 
+            document.body.style.overflow = 'auto';
+            return; 
+        }
+        
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        if(type === 'privacy') {
+            title.innerText = "Privacy Protocol.";
+            content.innerHTML = "<p>Pictology HQ respects archival integrity. Email collection is strictly for Ledger updates via Picao AI secure nodes.</p><p>We do not track, sell, or algorithmically analyze your viewing habits.</p>";
+        } else {
+            title.innerText = "Terms of Craft.";
+            content.innerHTML = "<p>Images are for study and artistic inspiration. Commercial reproduction without licensing is prohibited.</p><p>By entering this workspace, you agree to respect the slow nature of the work.</p>";
+        }
+    }
 
-/* Legal Toggle */
-function toggleLegal(type){
-const overlay=document.getElementById('legal-overlay');
-const title=document.getElementById('legal-title');
-const content=document.getElementById('legal-content');
+    function joinLedger() {
+        const input = document.getElementById('ledger-email');
+        const btn = document.getElementById('ledger-btn');
+        const toast = document.getElementById('ledger-toast');
 
-if(!type){
-overlay.classList.remove('active');
-document.body.style.overflow='auto';
-return;
-}
+        if(input.value.trim() === "") {
+            input.focus();
+            input.classList.add('border-red-500');
+            setTimeout(() => input.classList.remove('border-red-500'), 500);
+            return; 
+        }
 
-overlay.classList.add('active');
-document.body.style.overflow='hidden';
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<span>Encrypting...</span> <i data-lucide="lock" class="w-3 h-3 animate-pulse"></i>';
+        lucide.createIcons();
+        btn.style.opacity = "0.7";
+        btn.disabled = true;
 
-if(type==='privacy'){
-title.innerText="Privacy Protocol.";
-content.innerHTML="<p>Pictology HQ respects archival integrity. Email collection is strictly for Ledger updates via secure nodes.</p><p>We do not track, sell, or analyze your viewing habits.</p>";
-}else{
-title.innerText="Terms of Craft.";
-content.innerHTML="<p>Images are for study and artistic inspiration. Commercial reproduction without licensing is prohibited.</p><p>By entering this workspace, you agree to respect the slow nature of the work.</p>";
-}
-}
+        setTimeout(() => {
+            btn.innerHTML = '<span>Registered</span> <i data-lucide="check" class="w-3 h-3"></i>';
+            lucide.createIcons();
+            input.value = "";
+            toast.classList.remove('translate-y-32', 'opacity-0');
 
-/* Ledger Simulation */
-function joinLedger(){
-const input=document.getElementById('ledger-email');
-const btn=document.getElementById('ledger-btn');
-const toast=document.getElementById('ledger-toast');
-
-if(input.value.trim()===""){
-input.focus();
-input.classList.add('border-red-500');
-setTimeout(()=>input.classList.remove('border-red-500'),500);
-return;
-}
-
-const originalHTML=btn.innerHTML;
-btn.innerHTML='<span>Encrypting...</span> <i data-lucide="lock" class="w-3 h-3 animate-pulse"></i>';
-lucide.createIcons();
-btn.style.opacity="0.7";
-btn.disabled=true;
-
-setTimeout(()=>{
-btn.innerHTML='<span>Registered</span> <i data-lucide="check" class="w-3 h-3"></i>';
-lucide.createIcons();
-input.value="";
-toast.classList.remove('translate-y-32','opacity-0');
-
-setTimeout(()=>{
-toast.classList.add('translate-y-32','opacity-0');
-btn.innerHTML=originalHTML;
-lucide.createIcons();
-btn.style.opacity="1";
-btn.disabled=false;
-},4000);
-
-},1800);
-}
+            setTimeout(() => {
+                toast.classList.add('translate-y-32', 'opacity-0');
+                btn.innerHTML = originalHTML;
+                lucide.createIcons();
+                btn.style.opacity = "1";
+                btn.disabled = false;
+            }, 4000);
+        }, 1800);
+    }
 </script>
-
 </body>
 </html>
